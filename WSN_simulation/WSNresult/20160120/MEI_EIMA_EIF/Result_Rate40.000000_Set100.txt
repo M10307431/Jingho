@@ -1,0 +1,1800 @@
+TotalEnergy:0.0914496
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:495.275 0.0367796 68 353 192,1 0 2 3 ,37 25 0
+Node2:636.11 0.0286365 68 353 50,2 0 1 3 ,45 73 0
+Node3:699.714 0.0260335 70 333 30,3 0 1 2 ,56 63 0
+Frame1:68, 100
+Frame2:68, 300
+Frame3:70, 800
+Meet_ratio:0.972669
+MissLatency_perpkt:124.412
+MissLatency_time:2115
+MeetLatency_perpkt:100.605
+MeetLatency_time:62576
+Meet Deadline:MISS
+===============================================0
+TotalEnergy:0.0874393
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:538.068 0.0338545 71 338 160,1 0 2 3 ,32 42 0
+Node2:642.505 0.0283515 71 338 64,2 0 1 3 ,52 32 0
+Node3:721.903 0.0252333 73 322 30,3 0 1 2 ,40 47 0
+Frame1:71, 100
+Frame2:71, 375
+Frame3:73, 750
+Meet_ratio:0.998305
+MissLatency_perpkt:100
+MissLatency_time:100
+MeetLatency_perpkt:115.369
+MeetLatency_time:68068
+Meet Deadline:MISS
+===============================================1
+TotalEnergy:0.071336
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:675.56 0.0269643 87 275 120,1 0 2 3 ,47 54 0
+Node2:783.643 0.0232453 88 268 64,2 0 1 3 ,61 70 0
+Node3:862.238 0.0211264 90 264 32,3 0 1 2 ,74 69 0
+Frame1:87, 150
+Frame2:88, 300
+Frame3:90, 750
+Meet_ratio:0.807377
+MissLatency_perpkt:250.457
+MissLatency_time:23543
+MeetLatency_perpkt:154.086
+MeetLatency_time:75040
+Meet Deadline:MISS
+===============================================2
+TotalEnergy:0.0782076
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:642.178 0.028366 77 310 100,1 0 2 3 ,36 66 0
+Node2:689.273 0.0264279 78 303 75,2 0 1 3 ,56 72 0
+Node3:778.005 0.0234137 79 297 30,3 0 1 2 ,50 55 0
+Frame1:77, 120
+Frame2:78, 320
+Frame3:79, 750
+Meet_ratio:0.800781
+MissLatency_perpkt:190.02
+MissLatency_time:19382
+MeetLatency_perpkt:146.9
+MeetLatency_time:75066
+Meet Deadline:MISS
+===============================================3
+TotalEnergy:0.0800133
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:609.708 0.0298766 76 315 120,1 0 2 3 ,56 71 0
+Node2:683.509 0.0266507 77 306 75,2 0 1 3 ,42 46 0
+Node3:775.609 0.023486 78 298 30,3 0 1 2 ,40 65 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.716946
+MissLatency_perpkt:198.007
+MissLatency_time:30097
+MeetLatency_perpkt:156.647
+MeetLatency_time:83963
+Meet Deadline:MISS
+===============================================4
+TotalEnergy:0.0765419
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:647.421 0.0281362 77 310 96,1 0 2 3 ,36 28 0
+Node2:728.876 0.0249919 78 303 50,2 0 1 3 ,58 56 0
+Node3:778.005 0.0234137 79 297 30,3 0 1 2 ,62 31 0
+Frame1:77, 120
+Frame2:78, 320
+Frame3:79, 750
+Meet_ratio:0.78882
+MissLatency_perpkt:190.02
+MissLatency_time:19382
+MeetLatency_perpkt:149.672
+MeetLatency_time:72142
+Meet Deadline:MISS
+===============================================5
+TotalEnergy:0.088929
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:550.737 0.0330757 67 355 125,1 0 2 3 ,59 38 0
+Node2:620.837 0.029341 68 343 75,2 0 1 3 ,47 51 0
+Node3:687.077 0.0265123 69 338 32,3 0 1 2 ,34 67 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.982877
+MissLatency_perpkt:295.6
+MissLatency_time:2956
+MeetLatency_perpkt:108.76
+MeetLatency_time:63516
+Meet Deadline:MISS
+===============================================6
+TotalEnergy:0.0761476
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:598.586 0.0304317 82 291 160,1 0 2 3 ,36 53 0
+Node2:771.424 0.0236135 83 284 50,2 0 1 3 ,51 28 0
+Node3:824.166 0.0221023 84 279 30,3 0 1 2 ,72 29 0
+Frame1:82, 120
+Frame2:83, 400
+Frame3:84, 800
+Meet_ratio:0.973585
+MissLatency_perpkt:249.857
+MissLatency_time:3498
+MeetLatency_perpkt:140.255
+MeetLatency_time:74335
+Meet Deadline:MISS
+===============================================7
+TotalEnergy:0.0741824
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:619.207 0.0294183 84 285 150,1 0 2 3 ,68 61 0
+Node2:791.111 0.0230259 85 276 50,2 0 1 3 ,70 74 0
+Node3:837.97 0.0217383 87 274 30,3 0 1 2 ,29 69 0
+Frame1:84, 125
+Frame2:85, 400
+Frame3:87, 800
+Meet_ratio:0.980469
+MissLatency_perpkt:298.7
+MissLatency_time:2987
+MeetLatency_perpkt:142.301
+MeetLatency_time:72858
+Meet Deadline:MISS
+===============================================8
+TotalEnergy:0.056888
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:846.393 0.0215219 111 216 100,1 0 2 3 ,60 64 0
+Node2:984.425 0.0185042 112 214 50,2 0 1 3 ,35 63 0
+Node3:1080.31 0.0168619 114 207 30,3 0 1 2 ,63 62 0
+Frame1:111, 200
+Frame2:112, 375
+Frame3:114, 800
+Meet_ratio:0.992386
+MissLatency_perpkt:458.333
+MissLatency_time:1375
+MeetLatency_perpkt:169.726
+MeetLatency_time:66872
+Meet Deadline:MISS
+===============================================9
+TotalEnergy:0.0659844
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:713.948 0.0255145 94 255 120,1 0 2 3 ,55 63 0
+Node2:864.934 0.0210606 95 249 50,2 0 1 3 ,67 41 0
+Node3:938.517 0.0194093 97 242 30,3 0 1 2 ,73 74 0
+Frame1:94, 150
+Frame2:95, 400
+Frame3:97, 750
+Meet_ratio:0.99115
+MissLatency_perpkt:541.25
+MissLatency_time:2165
+MeetLatency_perpkt:158.031
+MeetLatency_time:71430
+Meet Deadline:MISS
+===============================================10
+TotalEnergy:0.0926625
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:493.337 0.036924 67 355 192,1 0 2 3 ,41 49 0
+Node2:620.837 0.029341 68 343 75,2 0 1 3 ,40 67 0
+Node3:690.067 0.0263975 69 338 30,3 0 1 2 ,41 26 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.969183
+MissLatency_perpkt:281.05
+MissLatency_time:5621
+MeetLatency_perpkt:110.206
+MeetLatency_time:71524
+Meet Deadline:MISS
+===============================================11
+TotalEnergy:0.0781023
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:583.31 0.0312287 79 302 160,1 0 2 3 ,68 29 0
+Node2:744.116 0.0244801 80 296 50,2 0 1 3 ,74 72 0
+Node3:813.447 0.0223936 82 283 30,3 0 1 2 ,51 48 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:0.983302
+MissLatency_perpkt:237.111
+MissLatency_time:2134
+MeetLatency_perpkt:125.904
+MeetLatency_time:67862
+Meet Deadline:MISS
+===============================================12
+TotalEnergy:0.0627658
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:759.583 0.0239816 102 234 120,1 0 2 3 ,74 38 0
+Node2:893.244 0.0203931 103 232 60,2 0 1 3 ,52 73 0
+Node3:990.48 0.0183911 105 228 30,3 0 1 2 ,36 43 0
+Frame1:102, 192
+Frame2:103, 320
+Frame3:105, 750
+Meet_ratio:0.950226
+MissLatency_perpkt:289.455
+MissLatency_time:6368
+MeetLatency_perpkt:159.276
+MeetLatency_time:70400
+Meet Deadline:MISS
+===============================================13
+TotalEnergy:0.0865166
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:579.943 0.03141 67 355 96,1 0 2 3 ,59 30 0
+Node2:634.501 0.0287092 68 343 64,2 0 1 3 ,29 27 0
+Node3:690.067 0.0263975 69 338 30,3 0 1 2 ,28 32 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.983395
+MissLatency_perpkt:423.556
+MissLatency_time:3812
+MeetLatency_perpkt:120.129
+MeetLatency_time:65110
+Meet Deadline:MISS
+===============================================14
+TotalEnergy:0.0802179
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:572.609 0.0318123 77 310 160,1 0 2 3 ,30 59 0
+Node2:728.876 0.0249919 78 303 50,2 0 1 3 ,26 39 0
+Node3:778.005 0.0234137 79 297 30,3 0 1 2 ,30 44 0
+Frame1:77, 120
+Frame2:78, 320
+Frame3:79, 750
+Meet_ratio:0.804388
+MissLatency_perpkt:188.944
+MissLatency_time:20217
+MeetLatency_perpkt:141.361
+MeetLatency_time:77183
+Meet Deadline:MISS
+===============================================15
+TotalEnergy:0.0771477
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:620.368 0.0293632 78 304 125,1 0 2 3 ,36 57 0
+Node2:735.505 0.0247667 79 300 50,2 0 1 3 ,73 64 0
+Node3:791.387 0.0230178 80 290 32,3 0 1 2 ,62 39 0
+Frame1:78, 125
+Frame2:79, 300
+Frame3:80, 750
+Meet_ratio:0.712329
+MissLatency_perpkt:203.354
+MissLatency_time:29893
+MeetLatency_perpkt:180.82
+MeetLatency_time:92218
+Meet Deadline:MISS
+===============================================16
+TotalEnergy:0.0567172
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:876.495 0.0207828 115 209 96,1 0 2 3 ,53 45 0
+Node2:930.251 0.0195818 115 209 75,2 0 1 3 ,66 47 0
+Node3:1113.95 0.0163526 118 200 30,3 0 1 2 ,58 52 0
+Frame1:115, 240
+Frame2:115, 320
+Frame3:118, 750
+Meet_ratio:0.953431
+MissLatency_perpkt:385.474
+MissLatency_time:7324
+MeetLatency_perpkt:188.049
+MeetLatency_time:76724
+Meet Deadline:MISS
+===============================================17
+TotalEnergy:0.0690721
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:665.345 0.0273783 93 257 150,1 0 2 3 ,73 52 0
+Node2:833.805 0.0218468 94 252 60,2 0 1 3 ,45 56 0
+Node3:917.824 0.019847 96 248 30,3 0 1 2 ,64 37 0
+Frame1:93, 160
+Frame2:94, 320
+Frame3:96, 800
+Meet_ratio:0.965657
+MissLatency_perpkt:340.941
+MissLatency_time:5796
+MeetLatency_perpkt:132.711
+MeetLatency_time:65692
+Meet Deadline:MISS
+===============================================18
+TotalEnergy:0.0784948
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:617.183 0.0295148 77 310 120,1 0 2 3 ,40 26 0
+Node2:712.501 0.0255663 78 303 60,2 0 1 3 ,30 33 0
+Node3:778.005 0.0234137 79 297 30,3 0 1 2 ,39 35 0
+Frame1:77, 120
+Frame2:78, 320
+Frame3:79, 750
+Meet_ratio:0.796905
+MissLatency_perpkt:194.486
+MissLatency_time:20421
+MeetLatency_perpkt:146.948
+MeetLatency_time:75825
+Meet Deadline:MISS
+===============================================19
+TotalEnergy:0.0610967
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:792.614 0.0229822 102 236 100,1 0 2 3 ,61 38 0
+Node2:928.939 0.0196095 104 229 50,2 0 1 3 ,60 40 0
+Node3:984.378 0.0185051 105 228 32,3 0 1 2 ,35 61 0
+Frame1:102, 160
+Frame2:104, 480
+Frame3:105, 750
+Meet_ratio:0.748792
+MissLatency_perpkt:312.875
+MissLatency_time:32539
+MeetLatency_perpkt:210.461
+MeetLatency_time:86710
+Meet Deadline:MISS
+===============================================20
+TotalEnergy:0.0651034
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:726.671 0.0250677 96 249 120,1 0 2 3 ,51 42 0
+Node2:880.053 0.0206988 97 244 50,2 0 1 3 ,36 55 0
+Node3:942.033 0.0193369 99 241 30,3 0 1 2 ,73 52 0
+Frame1:96, 160
+Frame2:97, 375
+Frame3:99, 750
+Meet_ratio:0.952915
+MissLatency_perpkt:184.048
+MissLatency_time:3865
+MeetLatency_perpkt:144.152
+MeetLatency_time:64436
+Meet Deadline:MISS
+===============================================21
+TotalEnergy:0.0608871
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:805.457 0.0226157 103 231 100,1 0 2 3 ,36 58 0
+Node2:896.54 0.0203181 104 227 65,2 0 1 3 ,67 35 0
+Node3:1014.63 0.0179533 106 222 30,3 0 1 2 ,49 40 0
+Frame1:103, 200
+Frame2:104, 300
+Frame3:106, 800
+Meet_ratio:0.995283
+MissLatency_perpkt:390
+MissLatency_time:780
+MeetLatency_perpkt:161.453
+MeetLatency_time:68456
+Meet Deadline:MISS
+===============================================22
+TotalEnergy:0.088929
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:550.737 0.0330757 67 355 125,1 0 2 3 ,66 40 0
+Node2:620.837 0.029341 68 343 75,2 0 1 3 ,29 29 0
+Node3:687.077 0.0265123 69 338 32,3 0 1 2 ,41 40 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.982877
+MissLatency_perpkt:295.6
+MissLatency_time:2956
+MeetLatency_perpkt:108.76
+MeetLatency_time:63516
+Meet Deadline:MISS
+===============================================23
+TotalEnergy:0.0566582
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:855.526 0.0212922 111 216 96,1 0 2 3 ,32 40 0
+Node2:984.425 0.0185042 112 214 50,2 0 1 3 ,40 49 0
+Node3:1080.31 0.0168619 114 207 30,3 0 1 2 ,51 30 0
+Frame1:111, 200
+Frame2:112, 375
+Frame3:114, 800
+Meet_ratio:0.992308
+MissLatency_perpkt:458.333
+MissLatency_time:1375
+MeetLatency_perpkt:165.013
+MeetLatency_time:64355
+Meet Deadline:MISS
+===============================================24
+TotalEnergy:0.0696613
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:696.346 0.0261594 91 260 125,1 0 2 3 ,62 69 0
+Node2:779.668 0.0233638 92 257 80,2 0 1 3 ,31 72 0
+Node3:904.552 0.0201382 94 252 30,3 0 1 2 ,25 29 0
+Frame1:91, 160
+Frame2:92, 300
+Frame3:94, 800
+Meet_ratio:0.981818
+MissLatency_perpkt:281.778
+MissLatency_time:2536
+MeetLatency_perpkt:140.147
+MeetLatency_time:69373
+Meet Deadline:MISS
+===============================================25
+TotalEnergy:0.0635015
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:739.38 0.0246368 98 243 120,1 0 2 3 ,69 35 0
+Node2:896.051 0.0203292 99 239 50,2 0 1 3 ,38 39 0
+Node3:982.763 0.0185355 101 230 30,3 0 1 2 ,25 61 0
+Frame1:98, 160
+Frame2:99, 400
+Frame3:101, 750
+Meet_ratio:0.78733
+MissLatency_perpkt:250.138
+MissLatency_time:23513
+MeetLatency_perpkt:185.104
+MeetLatency_time:81631
+Meet Deadline:MISS
+===============================================26
+TotalEnergy:0.0698241
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:651.361 0.0279661 93 258 159,1 0 2 3 ,37 28 0
+Node2:824.824 0.0220847 94 252 64,2 0 1 3 ,55 74 0
+Node3:921.24 0.0197733 96 247 30,3 0 1 2 ,59 34 0
+Frame1:93, 150
+Frame2:94, 375
+Frame3:96, 800
+Meet_ratio:0.588583
+MissLatency_perpkt:237.871
+MissLatency_time:49715
+MeetLatency_perpkt:181.342
+MeetLatency_time:91759
+Meet Deadline:MISS
+===============================================27
+TotalEnergy:0.0625454
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:795.792 0.0228904 100 238 96,1 0 2 3 ,29 42 0
+Node2:868.496 0.0209742 101 236 65,2 0 1 3 ,29 70 0
+Node3:975.116 0.0186808 103 232 30,3 0 1 2 ,39 61 0
+Frame1:100, 192
+Frame2:101, 300
+Frame3:103, 750
+Meet_ratio:0.983607
+MissLatency_perpkt:522.571
+MissLatency_time:3658
+MeetLatency_perpkt:153.21
+MeetLatency_time:65574
+Meet Deadline:MISS
+===============================================28
+TotalEnergy:0.0749369
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:637.606 0.0285694 81 297 120,1 0 2 3 ,65 38 0
+Node2:762.139 0.0239011 82 288 50,2 0 1 3 ,48 37 0
+Node3:810.81 0.0224664 84 284 30,3 0 1 2 ,50 36 0
+Frame1:81, 120
+Frame2:82, 400
+Frame3:84, 750
+Meet_ratio:0.985772
+MissLatency_perpkt:380.857
+MissLatency_time:2666
+MeetLatency_perpkt:136.354
+MeetLatency_time:67086
+Meet Deadline:MISS
+===============================================29
+TotalEnergy:0.0552813
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:876.495 0.0207828 115 209 96,1 0 2 3 ,66 54 0
+Node2:1003.87 0.0181459 115 209 50,2 0 1 3 ,25 30 0
+Node3:1113.95 0.0163526 118 200 30,3 0 1 2 ,28 57 0
+Frame1:115, 240
+Frame2:115, 320
+Frame3:118, 750
+Meet_ratio:0.953003
+MissLatency_perpkt:388.667
+MissLatency_time:6996
+MeetLatency_perpkt:188.026
+MeetLatency_time:72014
+Meet Deadline:MISS
+===============================================30
+TotalEnergy:0.0764012
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:652.26 0.0279275 78 304 100,1 0 2 3 ,48 66 0
+Node2:712.375 0.0255708 79 300 64,2 0 1 3 ,66 60 0
+Node3:795.356 0.0229029 80 290 30,3 0 1 2 ,67 71 0
+Frame1:78, 125
+Frame2:79, 300
+Frame3:80, 750
+Meet_ratio:0.98996
+MissLatency_perpkt:890
+MissLatency_time:4450
+MeetLatency_perpkt:142.351
+MeetLatency_time:70891
+Meet Deadline:MISS
+===============================================31
+TotalEnergy:0.0875505
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:579.943 0.03141 67 355 96,1 0 2 3 ,45 57 0
+Node2:614.82 0.0296282 68 343 80,2 0 1 3 ,72 67 0
+Node3:687.077 0.0265123 69 338 32,3 0 1 2 ,50 52 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.996429
+MissLatency_perpkt:100
+MissLatency_time:200
+MeetLatency_perpkt:109.657
+MeetLatency_time:61408
+Meet Deadline:MISS
+===============================================32
+TotalEnergy:0.0918009
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:493.337 0.036924 67 355 192,1 0 2 3 ,50 37 0
+Node2:639.619 0.0284794 68 343 60,2 0 1 3 ,40 64 0
+Node3:690.067 0.0263975 69 338 30,3 0 1 2 ,52 33 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.981073
+MissLatency_perpkt:240.833
+MissLatency_time:2890
+MeetLatency_perpkt:106.099
+MeetLatency_time:67267
+Meet Deadline:MISS
+===============================================33
+TotalEnergy:0.0617413
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:795.792 0.0228904 100 238 96,1 0 2 3 ,29 50 0
+Node2:903.121 0.0201701 101 236 51,2 0 1 3 ,51 54 0
+Node3:975.116 0.0186808 103 232 30,3 0 1 2 ,47 46 0
+Frame1:100, 192
+Frame2:101, 300
+Frame3:103, 750
+Meet_ratio:0.992736
+MissLatency_perpkt:701
+MissLatency_time:2103
+MeetLatency_perpkt:153.012
+MeetLatency_time:63347
+Meet Deadline:MISS
+===============================================34
+TotalEnergy:0.0776649
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:626.49 0.0290763 78 304 120,1 0 2 3 ,41 37 0
+Node2:712.375 0.0255708 79 300 64,2 0 1 3 ,68 64 0
+Node3:791.387 0.0230178 80 290 32,3 0 1 2 ,66 44 0
+Frame1:78, 125
+Frame2:79, 300
+Frame3:80, 750
+Meet_ratio:0.996154
+MissLatency_perpkt:771.5
+MissLatency_time:1543
+MeetLatency_perpkt:142.837
+MeetLatency_time:74275
+Meet Deadline:MISS
+===============================================35
+TotalEnergy:0.0835335
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:603.61 0.0301784 71 338 96,1 0 2 3 ,59 71 0
+Node2:647.754 0.0281218 71 338 60,2 0 1 3 ,29 29 0
+Node3:721.903 0.0252333 73 322 30,3 0 1 2 ,29 72 0
+Frame1:71, 100
+Frame2:71, 375
+Frame3:73, 750
+Meet_ratio:0.978927
+MissLatency_perpkt:413.182
+MissLatency_time:4545
+MeetLatency_perpkt:132.042
+MeetLatency_time:68926
+Meet Deadline:MISS
+===============================================36
+TotalEnergy:0.0742306
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:620.735 0.0293458 84 284 150,1 0 2 3 ,49 41 0
+Node2:788.444 0.0231037 85 277 50,2 0 1 3 ,28 63 0
+Node3:836.324 0.021781 86 273 32,3 0 1 2 ,67 53 0
+Frame1:84, 125
+Frame2:85, 400
+Frame3:86, 750
+Meet_ratio:0.953488
+MissLatency_perpkt:518.708
+MissLatency_time:12449
+MeetLatency_perpkt:176.213
+MeetLatency_time:90926
+Meet Deadline:MISS
+===============================================37
+TotalEnergy:0.0597648
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:819.139 0.022238 105 229 96,1 0 2 3 ,32 34 0
+Node2:929.2 0.019604 105 229 50,2 0 1 3 ,46 49 0
+Node3:1016.36 0.0179228 107 220 32,3 0 1 2 ,71 48 0
+Frame1:105, 200
+Frame2:105, 320
+Frame3:107, 750
+Meet_ratio:0.995062
+MissLatency_perpkt:237.5
+MissLatency_time:475
+MeetLatency_perpkt:142.837
+MeetLatency_time:57849
+Meet Deadline:MISS
+===============================================38
+TotalEnergy:0.0588505
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:829.661 0.021956 107 222 100,1 0 2 3 ,30 66 0
+Node2:932.989 0.0195243 108 220 60,2 0 1 3 ,40 60 0
+Node3:1048.69 0.0173702 110 214 30,3 0 1 2 ,74 51 0
+Frame1:107, 192
+Frame2:108, 375
+Frame3:110, 750
+Meet_ratio:0.990268
+MissLatency_perpkt:456
+MissLatency_time:1824
+MeetLatency_perpkt:167.251
+MeetLatency_time:68740
+Meet Deadline:MISS
+===============================================39
+TotalEnergy:0.0775562
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:623.436 0.0292187 78 306 120,1 0 2 3 ,55 41 0
+Node2:722.478 0.0252132 78 306 50,2 0 1 3 ,63 68 0
+Node3:787.746 0.0231242 80 293 30,3 0 1 2 ,70 54 0
+Frame1:78, 120
+Frame2:78, 320
+Frame3:80, 800
+Meet_ratio:0.990099
+MissLatency_perpkt:120
+MissLatency_time:600
+MeetLatency_perpkt:117.992
+MeetLatency_time:59586
+Meet Deadline:MISS
+===============================================40
+TotalEnergy:0.0752241
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:631.26 0.0288566 81 297 125,1 0 2 3 ,61 73 0
+Node2:762.139 0.0239011 82 288 50,2 0 1 3 ,27 74 0
+Node3:810.81 0.0224664 84 284 30,3 0 1 2 ,43 50 0
+Frame1:81, 120
+Frame2:82, 400
+Frame3:84, 750
+Meet_ratio:0.985915
+MissLatency_perpkt:380.857
+MissLatency_time:2666
+MeetLatency_perpkt:137.173
+MeetLatency_time:68175
+Meet Deadline:MISS
+===============================================41
+TotalEnergy:0.0545738
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:879.09 0.0207214 117 205 100,1 0 2 3 ,63 55 0
+Node2:1040.95 0.0174993 119 200 50,2 0 1 3 ,37 64 0
+Node3:1113.92 0.016353 120 200 30,3 0 1 2 ,51 54 0
+Frame1:117, 200
+Frame2:119, 480
+Frame3:120, 750
+Meet_ratio:0.989529
+MissLatency_perpkt:820
+MissLatency_time:3280
+MeetLatency_perpkt:164.874
+MeetLatency_time:62982
+Meet Deadline:MISS
+===============================================42
+TotalEnergy:0.0702095
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:688.614 0.0264531 89 268 120,1 0 2 3 ,68 27 0
+Node2:790.768 0.0230358 90 265 64,2 0 1 3 ,32 66 0
+Node3:879.127 0.0207206 91 260 30,3 0 1 2 ,31 58 0
+Frame1:89, 150
+Frame2:90, 320
+Frame3:91, 750
+Meet_ratio:0.802495
+MissLatency_perpkt:268.2
+MissLatency_time:25479
+MeetLatency_perpkt:166.219
+MeetLatency_time:79785
+Meet Deadline:MISS
+===============================================43
+TotalEnergy:0.0673543
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:708.078 0.025726 93 258 120,1 0 2 3 ,55 48 0
+Node2:833.495 0.021855 94 252 60,2 0 1 3 ,73 26 0
+Node3:921.24 0.0197733 96 247 30,3 0 1 2 ,49 52 0
+Frame1:93, 150
+Frame2:94, 375
+Frame3:96, 800
+Meet_ratio:0.75
+MissLatency_perpkt:257
+MissLatency_time:29812
+MeetLatency_perpkt:170.212
+MeetLatency_time:78808
+Meet Deadline:MISS
+===============================================44
+TotalEnergy:0.0755732
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:610.101 0.0298574 82 291 150,1 0 2 3 ,56 43 0
+Node2:771.424 0.0236135 83 284 50,2 0 1 3 ,26 52 0
+Node3:824.166 0.0221023 84 279 30,3 0 1 2 ,74 71 0
+Frame1:82, 120
+Frame2:83, 400
+Frame3:84, 800
+Meet_ratio:0.984615
+MissLatency_perpkt:319.5
+MissLatency_time:2556
+MeetLatency_perpkt:140.121
+MeetLatency_time:72863
+Meet Deadline:MISS
+===============================================45
+TotalEnergy:0.084953
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:529.317 0.0344142 76 315 199,1 0 2 3 ,59 63 0
+Node2:676.222 0.0269379 77 306 80,2 0 1 3 ,48 64 0
+Node3:771.834 0.0236009 78 298 32,3 0 1 2 ,43 73 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.538462
+MissLatency_perpkt:190.08
+MissLatency_time:54743
+MeetLatency_perpkt:165.545
+MeetLatency_time:102969
+Meet Deadline:MISS
+===============================================46
+TotalEnergy:0.0680269
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:726.472 0.0250746 89 268 96,1 0 2 3 ,28 72 0
+Node2:819.37 0.0222317 90 265 50,2 0 1 3 ,31 58 0
+Node3:879.127 0.0207206 91 260 30,3 0 1 2 ,53 49 0
+Frame1:89, 150
+Frame2:90, 320
+Frame3:91, 750
+Meet_ratio:0.79684
+MissLatency_perpkt:262.022
+MissLatency_time:23582
+MeetLatency_perpkt:171.256
+MeetLatency_time:75695
+Meet Deadline:MISS
+===============================================47
+TotalEnergy:0.0796469
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:556.98 0.0327049 81 297 192,1 0 2 3 ,54 47 0
+Node2:744.254 0.0244755 82 288 60,2 0 1 3 ,43 54 0
+Node3:810.81 0.0224664 84 284 30,3 0 1 2 ,72 45 0
+Frame1:81, 120
+Frame2:82, 400
+Frame3:84, 750
+Meet_ratio:0.945993
+MissLatency_perpkt:163.71
+MissLatency_time:5075
+MeetLatency_perpkt:130.997
+MeetLatency_time:75192
+Meet Deadline:MISS
+===============================================48
+TotalEnergy:0.0745411
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:661.135 0.0275526 79 302 96,1 0 2 3 ,59 69 0
+Node2:744.116 0.0244801 80 296 50,2 0 1 3 ,35 63 0
+Node3:809.296 0.0225085 82 283 32,3 0 1 2 ,43 43 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:120.111
+MeetLatency_time:57293
+Meet Deadline:MEET
+===============================================49
+TotalEnergy:0.0627752
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:787.884 0.0231201 100 238 100,1 0 2 3 ,28 52 0
+Node2:868.496 0.0209742 101 236 65,2 0 1 3 ,43 28 0
+Node3:975.116 0.0186808 103 232 30,3 0 1 2 ,42 58 0
+Frame1:100, 192
+Frame2:101, 300
+Frame3:103, 750
+Meet_ratio:0.983759
+MissLatency_perpkt:522.571
+MissLatency_time:3658
+MeetLatency_perpkt:154.366
+MeetLatency_time:66686
+Meet Deadline:MISS
+===============================================50
+TotalEnergy:0.0817233
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:599.164 0.0304024 71 338 100,1 0 2 3 ,71 69 0
+Node2:684.888 0.0265971 72 325 50,2 0 1 3 ,43 37 0
+Node3:736.777 0.0247239 74 315 30,3 0 1 2 ,43 38 0
+Frame1:71, 100
+Frame2:72, 400
+Frame3:74, 750
+Meet_ratio:0.986328
+MissLatency_perpkt:569.429
+MissLatency_time:3986
+MeetLatency_perpkt:125.326
+MeetLatency_time:64167
+Meet Deadline:MISS
+===============================================51
+TotalEnergy:0.0613018
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:795.726 0.0228923 101 238 96,1 0 2 3 ,53 39 0
+Node2:909.905 0.0200197 102 234 51,2 0 1 3 ,68 46 0
+Node3:990.547 0.0183898 104 228 30,3 0 1 2 ,30 74 0
+Frame1:101, 192
+Frame2:102, 300
+Frame3:104, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:155.355
+MeetLatency_time:63851
+Meet Deadline:MEET
+===============================================52
+TotalEnergy:0.0779104
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:620.342 0.0293644 79 304 125,1 0 2 3 ,69 69 0
+Node2:710.377 0.0256427 79 304 60,2 0 1 3 ,59 37 0
+Node3:795.346 0.0229033 81 290 30,3 0 1 2 ,47 58 0
+Frame1:79, 125
+Frame2:79, 300
+Frame3:81, 800
+Meet_ratio:0.992263
+MissLatency_perpkt:432
+MissLatency_time:1728
+MeetLatency_perpkt:129.901
+MeetLatency_time:67159
+Meet Deadline:MISS
+===============================================53
+TotalEnergy:0.0918009
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:493.337 0.036924 67 355 192,1 0 2 3 ,45 37 0
+Node2:639.619 0.0284794 68 343 60,2 0 1 3 ,56 44 0
+Node3:690.067 0.0263975 69 338 30,3 0 1 2 ,72 47 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.981073
+MissLatency_perpkt:240.833
+MissLatency_time:2890
+MeetLatency_perpkt:106.099
+MeetLatency_time:67267
+Meet Deadline:MISS
+===============================================54
+TotalEnergy:0.0874931
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:550.737 0.0330757 67 355 125,1 0 2 3 ,38 69 0
+Node2:652.785 0.0279051 68 343 50,2 0 1 3 ,61 58 0
+Node3:687.077 0.0265123 69 338 32,3 0 1 2 ,47 27 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.996422
+MissLatency_perpkt:100
+MissLatency_time:200
+MeetLatency_perpkt:106.649
+MeetLatency_time:59617
+Meet Deadline:MISS
+===============================================55
+TotalEnergy:0.0662716
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:706.002 0.0258016 94 255 125,1 0 2 3 ,27 64 0
+Node2:864.934 0.0210606 95 249 50,2 0 1 3 ,74 71 0
+Node3:938.517 0.0194093 97 242 30,3 0 1 2 ,61 51 0
+Frame1:94, 150
+Frame2:95, 400
+Frame3:97, 750
+Meet_ratio:0.991247
+MissLatency_perpkt:541.25
+MissLatency_time:2165
+MeetLatency_perpkt:157.096
+MeetLatency_time:71793
+Meet Deadline:MISS
+===============================================56
+TotalEnergy:0.0845509
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:529.317 0.0344142 76 315 199,1 0 2 3 ,43 59 0
+Node2:683.509 0.0266507 77 306 75,2 0 1 3 ,40 36 0
+Node3:775.609 0.023486 78 298 30,3 0 1 2 ,58 48 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.520259
+MissLatency_perpkt:194.875
+MissLatency_time:57683
+MeetLatency_perpkt:174.433
+MeetLatency_time:107276
+Meet Deadline:MISS
+===============================================57
+TotalEnergy:0.0618061
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:805.457 0.0226157 103 231 100,1 0 2 3 ,41 32 0
+Node2:857.743 0.0212371 104 227 81,2 0 1 3 ,67 49 0
+Node3:1014.63 0.0179533 106 222 30,3 0 1 2 ,71 26 0
+Frame1:103, 200
+Frame2:104, 300
+Frame3:106, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:157.548
+MeetLatency_time:69321
+Meet Deadline:MEET
+===============================================58
+TotalEnergy:0.0860608
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:547.355 0.0332801 71 338 150,1 0 2 3 ,41 39 0
+Node2:661.26 0.0275474 71 338 50,2 0 1 3 ,69 57 0
+Node3:721.903 0.0252333 73 322 30,3 0 1 2 ,74 32 0
+Frame1:71, 100
+Frame2:71, 375
+Frame3:73, 750
+Meet_ratio:0.991166
+MissLatency_perpkt:421.6
+MissLatency_time:2108
+MeetLatency_perpkt:120.929
+MeetLatency_time:68446
+Meet Deadline:MISS
+===============================================59
+TotalEnergy:0.0625934
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:797.799 0.0228328 102 234 100,1 0 2 3 ,52 48 0
+Node2:857.036 0.0212547 103 232 75,2 0 1 3 ,57 34 0
+Node3:984.332 0.018506 105 228 32,3 0 1 2 ,28 30 0
+Frame1:102, 192
+Frame2:103, 320
+Frame3:105, 750
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:141.405
+MeetLatency_time:62077
+Meet Deadline:MEET
+===============================================60
+TotalEnergy:0.0803005
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:576.461 0.0315997 76 315 150,1 0 2 3 ,56 35 0
+Node2:722.434 0.0252148 77 306 50,2 0 1 3 ,25 32 0
+Node3:775.609 0.023486 78 298 30,3 0 1 2 ,42 44 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.732472
+MissLatency_perpkt:188.607
+MissLatency_time:27348
+MeetLatency_perpkt:151.359
+MeetLatency_time:81885
+Meet Deadline:MISS
+===============================================61
+TotalEnergy:0.0592057
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:798.359 0.0228168 110 218 120,1 0 2 3 ,61 74 0
+Node2:939.846 0.0193819 111 215 64,2 0 1 3 ,29 41 0
+Node3:1071.09 0.017007 113 209 30,3 0 1 2 ,58 74 0
+Frame1:110, 200
+Frame2:111, 375
+Frame3:113, 750
+Meet_ratio:0.995349
+MissLatency_perpkt:201.5
+MissLatency_time:403
+MeetLatency_perpkt:173.705
+MeetLatency_time:74693
+Meet Deadline:MISS
+===============================================62
+TotalEnergy:0.0610008
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:797.779 0.0228334 102 234 100,1 0 2 3 ,60 69 0
+Node2:923.001 0.0197356 103 230 51,2 0 1 3 ,71 44 0
+Node3:988.295 0.0184317 105 227 32,3 0 1 2 ,71 63 0
+Frame1:102, 200
+Frame2:103, 300
+Frame3:105, 750
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:154.819
+MeetLatency_time:64095
+Meet Deadline:MEET
+===============================================63
+TotalEnergy:0.0676578
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:732.552 0.0248665 91 262 100,1 0 2 3 ,40 44 0
+Node2:806.715 0.0225805 91 262 60,2 0 1 3 ,37 57 0
+Node3:901.296 0.0202109 93 253 30,3 0 1 2 ,68 32 0
+Frame1:91, 160
+Frame2:91, 300
+Frame3:93, 750
+Meet_ratio:0.663717
+MissLatency_perpkt:263.303
+MissLatency_time:40022
+MeetLatency_perpkt:193.443
+MeetLatency_time:87243
+Meet Deadline:MISS
+===============================================64
+TotalEnergy:0.0683715
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:719.876 0.0253044 89 268 100,1 0 2 3 ,58 59 0
+Node2:819.37 0.0222317 90 265 50,2 0 1 3 ,49 71 0
+Node3:874.28 0.0208354 91 260 32,3 0 1 2 ,59 63 0
+Frame1:89, 150
+Frame2:90, 320
+Frame3:91, 750
+Meet_ratio:0.806236
+MissLatency_perpkt:241.103
+MissLatency_time:20976
+MeetLatency_perpkt:156.556
+MeetLatency_time:70137
+Meet Deadline:MISS
+===============================================65
+TotalEnergy:0.0744765
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:661.1 0.0275541 80 299 100,1 0 2 3 ,64 51 0
+Node2:752.9 0.0241945 81 292 50,2 0 1 3 ,66 39 0
+Node3:801.478 0.022728 82 286 32,3 0 1 2 ,29 74 0
+Frame1:80, 120
+Frame2:81, 375
+Frame3:82, 750
+Meet_ratio:0.583682
+MissLatency_perpkt:371.271
+MissLatency_time:73883
+MeetLatency_perpkt:248.139
+MeetLatency_time:117866
+Meet Deadline:MISS
+===============================================66
+TotalEnergy:0.0767456
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:626.496 0.029076 78 304 120,1 0 2 3 ,58 65 0
+Node2:735.505 0.0247667 79 300 50,2 0 1 3 ,69 72 0
+Node3:795.356 0.0229029 80 290 30,3 0 1 2 ,62 31 0
+Frame1:78, 125
+Frame2:79, 300
+Frame3:80, 750
+Meet_ratio:0.698413
+MissLatency_perpkt:218.763
+MissLatency_time:33252
+MeetLatency_perpkt:180.467
+MeetLatency_time:90775
+Meet Deadline:MISS
+===============================================67
+TotalEnergy:0.0799403
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:550.887 0.0330667 79 302 192,1 0 2 3 ,63 65 0
+Node2:744.116 0.0244801 80 296 50,2 0 1 3 ,54 52 0
+Node3:813.447 0.0223936 82 283 30,3 0 1 2 ,40 36 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:0.994746
+MissLatency_perpkt:368
+MissLatency_time:1104
+MeetLatency_perpkt:121.124
+MeetLatency_time:69162
+Meet Deadline:MISS
+===============================================68
+TotalEnergy:0.0753453
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:655.668 0.0277824 79 302 100,1 0 2 3 ,48 33 0
+Node2:727.057 0.0250544 80 296 60,2 0 1 3 ,25 35 0
+Node3:809.296 0.0225085 82 283 32,3 0 1 2 ,54 33 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:117.47
+MeetLatency_time:57678
+Meet Deadline:MEET
+===============================================69
+TotalEnergy:0.0854323
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:587.844 0.0309878 69 346 100,1 0 2 3 ,57 54 0
+Node2:634.649 0.0287025 69 346 60,2 0 1 3 ,73 30 0
+Node3:707.637 0.025742 71 329 30,3 0 1 2 ,34 53 0
+Frame1:69, 100
+Frame2:69, 320
+Frame3:71, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:115.437
+MeetLatency_time:61759
+Meet Deadline:MEET
+===============================================70
+TotalEnergy:0.0557778
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:888.838 0.0204942 117 205 96,1 0 2 3 ,38 48 0
+Node2:954.87 0.0190769 118 202 75,2 0 1 3 ,38 47 0
+Node3:1123.98 0.0162066 120 198 30,3 0 1 2 ,48 40 0
+Frame1:117, 250
+Frame2:118, 320
+Frame3:120, 750
+Meet_ratio:0.99505
+MissLatency_perpkt:860
+MissLatency_time:1720
+MeetLatency_perpkt:166.928
+MeetLatency_time:67439
+Meet Deadline:MISS
+===============================================71
+TotalEnergy:0.0751155
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:661.135 0.0275526 79 302 96,1 0 2 3 ,30 67 0
+Node2:727.057 0.0250544 80 296 60,2 0 1 3 ,48 56 0
+Node3:809.296 0.0225085 82 283 32,3 0 1 2 ,36 27 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:116.885
+MeetLatency_time:56923
+Meet Deadline:MEET
+===============================================72
+TotalEnergy:0.0818513
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:576.461 0.0315997 76 315 150,1 0 2 3 ,47 74 0
+Node2:683.509 0.0266507 77 306 75,2 0 1 3 ,30 71 0
+Node3:771.834 0.0236009 78 298 32,3 0 1 2 ,54 25 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.731107
+MissLatency_perpkt:197.961
+MissLatency_time:30288
+MeetLatency_perpkt:149.445
+MeetLatency_time:84885
+Meet Deadline:MISS
+===============================================73
+TotalEnergy:0.0927132
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:489.164 0.0372391 68 353 200,1 0 2 3 ,53 70 0
+Node2:618.736 0.0294407 68 353 64,2 0 1 3 ,40 34 0
+Node3:699.714 0.0260335 70 333 30,3 0 1 2 ,65 72 0
+Frame1:68, 100
+Frame2:68, 300
+Frame3:70, 800
+Meet_ratio:0.970497
+MissLatency_perpkt:148.579
+MissLatency_time:2823
+MeetLatency_perpkt:103.568
+MeetLatency_time:66698
+Meet Deadline:MISS
+===============================================74
+TotalEnergy:0.0793464
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:580.594 0.0313748 79 304 160,1 0 2 3 ,26 72 0
+Node2:726.654 0.0250683 79 304 50,2 0 1 3 ,27 60 0
+Node3:795.346 0.0229033 81 290 30,3 0 1 2 ,64 72 0
+Frame1:79, 125
+Frame2:79, 300
+Frame3:81, 800
+Meet_ratio:0.987085
+MissLatency_perpkt:154.714
+MissLatency_time:1083
+MeetLatency_perpkt:120.044
+MeetLatency_time:65064
+Meet Deadline:MISS
+===============================================75
+TotalEnergy:0.0586111
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:803.505 0.0226707 111 216 120,1 0 2 3 ,56 44 0
+Node2:954.788 0.0190786 112 214 60,2 0 1 3 ,49 58 0
+Node3:1080.31 0.0168619 114 207 30,3 0 1 2 ,50 56 0
+Frame1:111, 200
+Frame2:112, 375
+Frame3:114, 800
+Meet_ratio:0.990566
+MissLatency_perpkt:316.5
+MissLatency_time:1266
+MeetLatency_perpkt:166.425
+MeetLatency_time:70564
+Meet Deadline:MISS
+===============================================76
+TotalEnergy:0.0836894
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:529.317 0.0344142 76 315 199,1 0 2 3 ,52 54 0
+Node2:706.344 0.0257891 77 306 60,2 0 1 3 ,64 63 0
+Node3:775.609 0.023486 78 298 30,3 0 1 2 ,57 37 0
+Frame1:76, 120
+Frame2:77, 300
+Frame3:78, 750
+Meet_ratio:0.511628
+MissLatency_perpkt:194.888
+MissLatency_time:57297
+MeetLatency_perpkt:175.338
+MeetLatency_time:105203
+Meet Deadline:MISS
+===============================================77
+TotalEnergy:0.0778079
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:598.699 0.030426 80 299 150,1 0 2 3 ,32 51 0
+Node2:735.44 0.0247688 81 292 60,2 0 1 3 ,39 39 0
+Node3:805.549 0.0226131 82 286 30,3 0 1 2 ,68 30 0
+Frame1:80, 120
+Frame2:81, 375
+Frame3:82, 750
+Meet_ratio:0.598881
+MissLatency_perpkt:363.874
+MissLatency_time:78233
+MeetLatency_perpkt:231.957
+MeetLatency_time:123633
+Meet Deadline:MISS
+===============================================78
+TotalEnergy:0.0539423
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:897.938 0.0202865 121 199 100,1 0 2 3 ,72 26 0
+Node2:1024.99 0.0177718 122 196 60,2 0 1 3 ,54 70 0
+Node3:1146.81 0.015884 124 192 32,3 0 1 2 ,61 46 0
+Frame1:121, 240
+Frame2:122, 375
+Frame3:124, 750
+Meet_ratio:0.987113
+MissLatency_perpkt:452
+MissLatency_time:2260
+MeetLatency_perpkt:186.124
+MeetLatency_time:72216
+Meet Deadline:MISS
+===============================================79
+TotalEnergy:0.0685332
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:724.253 0.0251514 88 269 96,1 0 2 3 ,52 34 0
+Node2:796.166 0.0228797 89 267 59,2 0 1 3 ,71 50 0
+Node3:888.495 0.0205021 91 257 30,3 0 1 2 ,44 27 0
+Frame1:88, 150
+Frame2:89, 300
+Frame3:91, 800
+Meet_ratio:0.923246
+MissLatency_perpkt:328.714
+MissLatency_time:11505
+MeetLatency_perpkt:164.369
+MeetLatency_time:74459
+Meet Deadline:MISS
+===============================================80
+TotalEnergy:0.0735761
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:634.982 0.0286874 87 275 150,1 0 2 3 ,53 58 0
+Node2:762.906 0.0238771 88 268 75,2 0 1 3 ,28 50 0
+Node3:866.952 0.0210115 90 264 30,3 0 1 2 ,70 25 0
+Frame1:87, 150
+Frame2:88, 300
+Frame3:90, 750
+Meet_ratio:0.764706
+MissLatency_perpkt:250.339
+MissLatency_time:31042
+MeetLatency_perpkt:171.506
+MeetLatency_time:90212
+Meet Deadline:MISS
+===============================================81
+TotalEnergy:0.062609
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:797.779 0.0228334 102 234 100,1 0 2 3 ,46 55 0
+Node2:848.884 0.0214588 103 230 81,2 0 1 3 ,43 62 0
+Node3:994.493 0.0183169 105 227 30,3 0 1 2 ,28 43 0
+Frame1:102, 200
+Frame2:103, 300
+Frame3:105, 750
+Meet_ratio:0.986425
+MissLatency_perpkt:954.167
+MissLatency_time:5725
+MeetLatency_perpkt:159.93
+MeetLatency_time:70689
+Meet Deadline:MISS
+===============================================82
+TotalEnergy:0.0771477
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:620.368 0.0293632 78 304 125,1 0 2 3 ,36 55 0
+Node2:735.505 0.0247667 79 300 50,2 0 1 3 ,43 33 0
+Node3:791.387 0.0230178 80 290 32,3 0 1 2 ,73 47 0
+Frame1:78, 125
+Frame2:79, 300
+Frame3:80, 750
+Meet_ratio:0.712329
+MissLatency_perpkt:203.354
+MissLatency_time:29893
+MeetLatency_perpkt:180.82
+MeetLatency_time:92218
+Meet Deadline:MISS
+===============================================83
+TotalEnergy:0.076092
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:655.668 0.0277824 79 302 100,1 0 2 3 ,33 43 0
+Node2:702.886 0.025916 80 296 75,2 0 1 3 ,44 34 0
+Node3:813.447 0.0223936 82 283 30,3 0 1 2 ,27 40 0
+Frame1:79, 125
+Frame2:80, 320
+Frame3:82, 750
+Meet_ratio:0.998016
+MissLatency_perpkt:852
+MissLatency_time:852
+MeetLatency_perpkt:131.054
+MeetLatency_time:66051
+Meet Deadline:MISS
+===============================================84
+TotalEnergy:0.0657351
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:689.229 0.0264295 98 244 150,1 0 2 3 ,50 38 0
+Node2:889.536 0.0204781 99 241 50,2 0 1 3 ,39 62 0
+Node3:967.522 0.0188275 101 234 30,3 0 1 2 ,41 64 0
+Frame1:98, 150
+Frame2:99, 480
+Frame3:101, 750
+Meet_ratio:0.728814
+MissLatency_perpkt:240.398
+MissLatency_time:30771
+MeetLatency_perpkt:189.274
+MeetLatency_time:89148
+Meet Deadline:MISS
+===============================================85
+TotalEnergy:0.0621059
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:795.726 0.0228923 101 238 96,1 0 2 3 ,40 48 0
+Node2:874.768 0.0208238 102 234 65,2 0 1 3 ,26 45 0
+Node3:990.547 0.0183898 104 228 30,3 0 1 2 ,25 38 0
+Frame1:101, 192
+Frame2:102, 300
+Frame3:104, 800
+Meet_ratio:0.995294
+MissLatency_perpkt:387
+MissLatency_time:774
+MeetLatency_perpkt:158.242
+MeetLatency_time:67253
+Meet Deadline:MISS
+===============================================86
+TotalEnergy:0.056948
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:861.267 0.0211502 112 214 96,1 0 2 3 ,31 31 0
+Node2:961.979 0.018936 113 212 60,2 0 1 3 ,48 73 0
+Node3:1080.31 0.0168618 115 207 30,3 0 1 2 ,65 40 0
+Frame1:112, 240
+Frame2:113, 300
+Frame3:115, 750
+Meet_ratio:0.954774
+MissLatency_perpkt:484.111
+MissLatency_time:8714
+MeetLatency_perpkt:193.497
+MeetLatency_time:77012
+Meet Deadline:MISS
+===============================================87
+TotalEnergy:0.0857125
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:579.943 0.03141 67 355 96,1 0 2 3 ,27 56 0
+Node2:652.785 0.0279051 68 343 50,2 0 1 3 ,41 73 0
+Node3:690.067 0.0263975 69 338 30,3 0 1 2 ,46 26 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.992424
+MissLatency_perpkt:466.5
+MissLatency_time:1866
+MeetLatency_perpkt:117.258
+MeetLatency_time:61912
+Meet Deadline:MISS
+===============================================88
+TotalEnergy:0.0821268
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:568.507 0.0320418 74 321 150,1 0 2 3 ,36 65 0
+Node2:708.088 0.0257256 75 313 50,2 0 1 3 ,71 62 0
+Node3:747.804 0.0243593 76 310 30,3 0 1 2 ,51 40 0
+Frame1:74, 100
+Frame2:75, 480
+Frame3:76, 750
+Meet_ratio:0.938406
+MissLatency_perpkt:299.971
+MissLatency_time:10199
+MeetLatency_perpkt:153.695
+MeetLatency_time:84532
+Meet Deadline:MISS
+===============================================89
+TotalEnergy:0.078772
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:591.421 0.0308004 79 304 150,1 0 2 3 ,29 41 0
+Node2:726.654 0.0250683 79 304 50,2 0 1 3 ,71 69 0
+Node3:795.346 0.0229033 81 290 30,3 0 1 2 ,40 53 0
+Frame1:79, 125
+Frame2:79, 300
+Frame3:81, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:120.312
+MeetLatency_time:64006
+Meet Deadline:MEET
+===============================================90
+TotalEnergy:0.0669197
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:706.049 0.0257999 93 259 120,1 0 2 3 ,33 63 0
+Node2:853.314 0.0213474 94 253 50,2 0 1 3 ,42 31 0
+Node3:921.283 0.0197724 95 247 30,3 0 1 2 ,47 33 0
+Frame1:93, 150
+Frame2:94, 375
+Frame3:95, 750
+Meet_ratio:0.736842
+MissLatency_perpkt:302.017
+MissLatency_time:36242
+MeetLatency_perpkt:204.075
+MeetLatency_time:92650
+Meet Deadline:MISS
+===============================================91
+TotalEnergy:0.0600847
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:808.481 0.0225311 103 233 96,1 0 2 3 ,27 52 0
+Node2:929.411 0.0195995 104 229 50,2 0 1 3 ,58 36 0
+Node3:1014.59 0.017954 106 222 30,3 0 1 2 ,33 42 0
+Frame1:103, 192
+Frame2:104, 320
+Frame3:106, 800
+Meet_ratio:0.990148
+MissLatency_perpkt:409.5
+MissLatency_time:1638
+MeetLatency_perpkt:155.51
+MeetLatency_time:63137
+Meet Deadline:MISS
+===============================================92
+TotalEnergy:0.0778079
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:587.606 0.0310003 80 299 160,1 0 2 3 ,41 46 0
+Node2:752.9 0.0241945 81 292 50,2 0 1 3 ,60 46 0
+Node3:805.549 0.0226131 82 286 30,3 0 1 2 ,33 26 0
+Frame1:80, 120
+Frame2:81, 375
+Frame3:82, 750
+Meet_ratio:0.606343
+MissLatency_perpkt:359.427
+MissLatency_time:75839
+MeetLatency_perpkt:237.97
+MeetLatency_time:126838
+Meet Deadline:MISS
+===============================================93
+TotalEnergy:0.0563651
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:816.687 0.0223047 116 207 125,1 0 2 3 ,49 49 0
+Node2:1020.23 0.0178547 117 205 50,2 0 1 3 ,26 30 0
+Node3:1124.06 0.0162056 119 198 30,3 0 1 2 ,48 46 0
+Frame1:116, 192
+Frame2:117, 480
+Frame3:119, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:189.959
+MeetLatency_time:77883
+Meet Deadline:MEET
+===============================================94
+TotalEnergy:0.090365
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:527.822 0.0345116 67 355 150,1 0 2 3 ,67 74 0
+Node2:620.837 0.029341 68 343 75,2 0 1 3 ,26 29 0
+Node3:687.077 0.0265123 69 338 32,3 0 1 2 ,36 29 0
+Frame1:67, 100
+Frame2:68, 300
+Frame3:69, 750
+Meet_ratio:0.98358
+MissLatency_perpkt:295.6
+MissLatency_time:2956
+MeetLatency_perpkt:106.442
+MeetLatency_time:64823
+Meet Deadline:MISS
+===============================================95
+TotalEnergy:0.0784177
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:617.368 0.0295059 78 306 125,1 0 2 3 ,54 50 0
+Node2:706.386 0.0257876 78 306 60,2 0 1 3 ,47 32 0
+Node3:787.746 0.0231242 80 293 30,3 0 1 2 ,28 39 0
+Frame1:78, 120
+Frame2:78, 320
+Frame3:80, 800
+Meet_ratio:0.986538
+MissLatency_perpkt:200.857
+MissLatency_time:1406
+MeetLatency_perpkt:115.621
+MeetLatency_time:60123
+Meet Deadline:MISS
+===============================================96
+TotalEnergy:0.0615316
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:787.819 0.0231221 101 238 100,1 0 2 3 ,73 49 0
+Node2:909.905 0.0200197 102 234 51,2 0 1 3 ,34 51 0
+Node3:990.547 0.0183898 104 228 30,3 0 1 2 ,62 33 0
+Frame1:101, 192
+Frame2:102, 300
+Frame3:104, 800
+Meet_ratio:1
+MissLatency_perpkt:-1.#IND
+MissLatency_time:0
+MeetLatency_perpkt:152.366
+MeetLatency_time:63232
+Meet Deadline:MEET
+===============================================97
+TotalEnergy:0.0488132
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:971.744 0.0187457 133 181 96,1 0 2 3 ,72 27 0
+Node2:1161.58 0.0156821 135 175 50,2 0 1 3 ,49 62 0
+Node3:1266.29 0.0143854 136 173 30,3 0 1 2 ,43 62 0
+Frame1:133, 250
+Frame2:135, 480
+Frame3:136, 750
+Meet_ratio:0.99435
+MissLatency_perpkt:896
+MissLatency_time:1792
+MeetLatency_perpkt:183.989
+MeetLatency_time:65132
+Meet Deadline:MISS
+===============================================98
+TotalEnergy:0.0814936
+S1 n1
+S2 n2
+S3 n3
+	Lifetime Energy Tc NotifyEvt TranEvt, Color Conflict_node, coor_x coor_y Send_node
+Node1:603.726 0.0301726 71 338 96,1 0 2 3 ,31 73 0
+Node2:684.888 0.0265971 72 325 50,2 0 1 3 ,65 27 0
+Node3:736.777 0.0247239 74 315 30,3 0 1 2 ,67 32 0
+Frame1:71, 100
+Frame2:72, 400
+Frame3:74, 750
+Meet_ratio:0.98622
+MissLatency_perpkt:569.429
+MissLatency_time:3986
+MeetLatency_perpkt:125.598
+MeetLatency_time:63804
+Meet Deadline:MISS
+===============================================99

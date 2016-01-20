@@ -1,0 +1,4 @@
+L:\M10207432\JingHo\WSN_simulation\GENresult\input_varied_node3
+MEI
+Static
+EIF
