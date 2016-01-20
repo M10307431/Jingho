@@ -1,0 +1,27 @@
+﻿  WSN_Main.cpp
+  WSNStruct.cpp
+  WSNFile.cpp
+  WSNEnergy.cpp
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\struct\wsnenergy.cpp(30): warning C4244: '=' : 將 'long' 轉換為 'short'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\struct\wsnenergy.cpp(26): warning C4101: 'Epkt' : 未參考的區域變數
+  FlowSchedule.cpp
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(298): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(306): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(307): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(419): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(425): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(432): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(434): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(489): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(541): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(610): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(755): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(787): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\schedule\flowschedule.cpp(860): warning C4244: '=' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+  TDMA.cpp
+  ConnInterval.cpp
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\algorithm\conninterval.cpp(99): warning C4244: '=' : 將 'double' 轉換為 'short'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\algorithm\conninterval.cpp(716): warning C4244: '引數' : 將 'double' 轉換為 'int'，由於型別不同，可能導致資料遺失
+l:\m10207432\jingho\wsn_simulation\wsn_main\include\algorithm\conninterval.cpp(739): warning C4101: 'Minperiod' : 未參考的區域變數
+  正在產生程式碼...
+  WSN_Main.vcxproj -> L:\M10207432\JingHo\WSN_simulation\WSN_Main\Debug\WSN_Main.exe
