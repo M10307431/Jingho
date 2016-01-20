@@ -32,16 +32,7 @@ DrawTime=2
 device1="\x1C\xBA\xD6\x14\x33\x88" #"\x02\xC2\x36\x29\x6A\xBC"
 device2="\xF0\xBF\x36\x29\x6A\xBC"
 device3="\xF6\x8E\x27\xAF\x59\x90"
-'''
-Frame=[{"Exe":0.52,"Period":1,"Deadline":1,'Arrival':0,'id':1},
-        {"Exe":0.54,"Period":2,"Deadline":2,'Arrival':0,'id':2},
-        {"Exe":0.56,"Period":3,"Deadline":3,'Arrival':0,'id':3}]
-'''
-'''
-Frame=[ {"Exe":0.1,"Period":0.150,"Deadline":0.15,'Arrival':0,'id':1},
-        {"Exe":0.1,"Period":0.50,"Deadline":0.5,'Arrival':0,'id':2},
-        {"Exe":0.1,"Period":1.0,"Deadline":1.0,'Arrival':0,'id':3}]
-'''
+
 Nodeinfo=[[200,200],
           [400,400],
           [800,800],
@@ -534,6 +525,12 @@ def EIF():
                 cmp2=Timeslot+scheframe['Exe']
                 
                 if v>critical['Deadline'] and critical!=scheframe and NPEDFRD_f:
+                    if Timeslot>=critical['Arrival']:
+                        scheframe=critical
+                    else:
+                        scheframe=None
+
+                if v>critical['Deadline'] and critical!=scheframe and NPEDFRD_f:
                     if cmp1<cmp2:
                         if Timeslot>=critical['Arrival']:
                             scheframe=critical
@@ -587,6 +584,121 @@ def EIF():
     ble_parser.stop()
 
     return Timeslot
+
+def NPEDF():
+    Timeslot=0
+    NPEDFRD_f=True
+    
+    try:
+        BLECMD=ble_builder.BLECMD
+        print "-------------------------Init Dongle Device-------------------------"
+        print_output(BLECMD("fe00"))
+        time.sleep(1)
+
+        print "-------------------------Connect-------------------------"        
+        print_output(BLECMD("fe09", peer_addr="\x8C\x64\xAB\x29\x6A\xBC"))#CC2540EM
+        time.sleep(2)
+        print_output(BLECMD("fe09", peer_addr="\xF0\xBF\x36\x29\x6A\xBC"))#CC2540EM
+        time.sleep(2)
+        print_output(BLECMD("fe09", peer_addr="\xF6\x8E\x27\xAF\x59\x90"))#CC2540EM
+        
+        I=raw_input("PAUSE")
+        
+        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x0E")#Trigger
+        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x0E")#Trigger
+        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x0E")#Trigger
+        
+        #================================================GATT_WriteCharValue
+        print datetime.datetime.now().strftime("%H:%M:%S.%f")," Start"
+
+        TDMAcounter=100
+        value=1
+        while True:
+            #=================Sche
+            scheframe=None #list, deadline
+            critical=None
+
+            #Find Critical
+            for d in Frame:
+                if critical==None:
+                    critical=d
+                elif critical['Deadline']>d['Deadline']:
+                    critical=d
+            
+            #Find Next Ready Frame
+            for d in Frame:
+                if scheframe==None:
+                    if Timeslot>=d['Arrival']:
+                        scheframe=d
+                else:
+                    if scheframe['Deadline']>d['Deadline'] and Timeslot>=scheframe['Arrival']:
+                        scheframe=d
+
+            if scheframe!=None:
+
+                v=Timeslot+critical['Exe']+scheframe['Exe']
+                cmp1=(critical['Deadline']/critical['Exe'])*critical['Exe']
+                cmp2=Timeslot+scheframe['Exe']
+                '''
+                if v>critical['Deadline'] and critical!=scheframe and NPEDFRD_f:
+                    if Timeslot>=critical['Arrival']:
+                        scheframe=critical
+                    else:
+                        scheframe=None
+                '''
+                
+                if v>critical['Deadline'] and critical!=scheframe and NPEDFRD_f:
+                    if cmp1<cmp2:
+                        if Timeslot>=critical['Arrival']:
+                            scheframe=critical
+                        else:
+                            scheframe=None
+                
+            #=================Transmission
+            
+            if scheframe!=None:
+                #print "Timeslot=",Timeslot,
+                #print "ID=",scheframe['id']," Arrival=",scheframe['Arrival']," Deadline=",scheframe['Deadline']
+                            
+                scheframe['Deadline']=scheframe['Deadline']+scheframe['Period']
+                scheframe['Arrival']=scheframe['Arrival']+scheframe['Period']
+                #-----------#
+                if scheframe['id']==1:
+                    print_output(BLECMD("fd9b",
+                                        conn_handle="\x00\x00",
+                                        handle="\x25\x00",
+                                       value="\x0D"))
+                if scheframe['id']==2:
+                    print_output(BLECMD("fd9b",
+                                        conn_handle="\x01\x00",
+                                        handle="\x25\x00",
+                                       value="\x0D"))
+                if scheframe['id']==3:
+                    print_output(BLECMD("fd9b",
+                                        conn_handle="\x02\x00",
+                                        handle="\x25\x00",
+                                       value="\x0D"))
+
+                time.sleep(scheframe['Exe'])#Connection interval
+                #-----------#
+                
+                Timeslot+=scheframe['Exe']
+            else:
+                #print "Timeslot=",Timeslot," IDLE"
+                time.sleep(0.01)
+                Timeslot+=0.01
+                if Timeslot>DrawTime:
+                    DrawInfo[2]=1
+    except:
+        pass
+    #=======================================================Disconnect
+    print_output(BLECMD("fe0a", conn_handle="\x00\x00"))
+    time.sleep(1)
+    print_output(BLECMD("fe0a", conn_handle="\x01\x00"))
+    time.sleep(1)
+    print_output(BLECMD("fe0a", conn_handle="\x02\x00"))
+    
+    ble_parser.stop()
     
 def Table():
     '''
@@ -745,9 +857,11 @@ def main():
 
 if __name__ == "__main__":
     #main()
+    
     Draw_BOX=PaintBox(DrawInfo)
     Draw_thread=Thread(target=Draw_BOX.mainloop)
     Draw_thread.start()
+
     #Keyfob()
     #CC2540EM()
     #HM10()
@@ -756,9 +870,13 @@ if __name__ == "__main__":
     
     #polling()
     Table()
+    #NPEDF()
     #EIF()
+    #Timeslot=Timeslot*1000
+    
     try:
         meetratio=float(Nodeinfo[3]["meet"])/float(Nodeinfo[3]["meet"]+Nodeinfo[3]["miss"])
+        #meetratio=float(Nodeinfo[3]["meet"])/float(count)
         print "Meet number:",Nodeinfo[3]["meet"]
         print "Miss number:",Nodeinfo[3]["miss"]
         print "Meet Ratio:",meetratio
