@@ -19,9 +19,9 @@ from HCI_CMD import *
 '''================================
         Dongle Setting
 ================================'''
-BLEport="COM21"
+BLEport="COM23"
 BLEBaudrate=115200
-
+KeyfobMAC="\x8C\x64\xAB\x29\x6A\xBC"
 '''================================
         Global value
 ================================'''
@@ -42,11 +42,11 @@ Frame=[{"Exe":0.05,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
         {"Exe":0.05,"Period":0.400,"Deadline":0.400,'Arrival':0,'id':2},
         {"Exe":0.05,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
 '''
-
-Frame=[{"Exe":0.1,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
+'''
+Frame=[{"Exe":0.05,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
         {"Exe":0.1,"Period":0.400,"Deadline":0.400,'Arrival':0,'id':2},
-        {"Exe":0.1,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
-
+        {"Exe":0.2,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
+'''
 '''
 Nodeinfo=[[200,200],
           [350,350],
@@ -93,6 +93,20 @@ serial_port = serial.Serial(port=BLEport, baudrate=BLEBaudrate)
 ble_builder = GW_B.GW_Builder(serial_port)
 ble_parser = GW_P.GW_BLEParser(serial_port, callback=analyse_packet)    #(analyse_packet) callback(packet, dictionary)
 
+def hexstr_HEX(a_string): # a_string = '0x12345' big enddian
+    if len(a_string)%2 !=0: # fix to byte pair >> 01 23 45 
+        a_string = "0"+a_string[2:]
+    else:
+        a_string = a_string[2:]
+    i=len(a_string)
+    inv = ""  
+    while i > 0:
+        tmp = "0x"+a_string[i-2:i] # add 0x >> 0x45 0x23 0x01
+        x=int(tmp, 16)
+        inv += "".join(chr(x)) # hex ascii char >> \x45 \x23 \x01
+        i -= 2
+    inv += "".join(chr(0))
+    return inv
 
 def CC2540EM():
     try:
@@ -104,35 +118,38 @@ def CC2540EM():
         time.sleep(1)
         
         print "-------------------------Connect CC2540EM-------------------------"
-        print_output(BLECMD("fe09", peer_addr="\xB6\xBC\x36\x29\x6A\xBC"))#\x1C\xBA\xD6\x14\x33\x88
+        print_output(BLECMD("fe09", peer_addr="\x1C\xBA\xD6\x14\x33\x88"))#\x1C\xBA\xD6\x14\x33\x88
         time.sleep(2) #\xB6\xBC\x36\x29\x6A\xBC
         I=raw_input("PAUSE")
         #================================================GATT_WriteCharValue
-        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x0E")#Trigger
+        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00\x00")#Trigger
         print datetime.datetime.now().strftime("%H:%M:%S.%f")
         while True:
 		
-            x=raw_input("Input:")
-            if(x == '1'):
-                print 'send'
+            noid=raw_input("SendCMD to Slave No.:")
+            if(noid == '1'):
+                conninv = input("\tConn_interval(ms):")
+                conninv = float(conninv)/1.25   #  1.25 / unit
+                conninv = hex(int(conninv))
+                conninv = hexstr_HEX(conninv)                
+                print_output(BLECMD("fe11",
+                             conn_handle = "\x00\x00",
+                             intervalMin = conninv,
+                             intervalMax = conninv,
+                             connLatency = "\x00\x00",
+                             connTimeout = "\xe8\x03"))
+            if(noid == '2'):
                 print_output(BLECMD("fd9b",
                              conn_handle="\x00\x00",
                              handle="\x25\x00",
-                             value="\x01"))
-            if(x == '2'):
-                print 'send'
+                             value="\x34\x00"))
+            if(noid == '3'):
                 print_output(BLECMD("fd9b",
                              conn_handle="\x00\x00",
                              handle="\x25\x00",
-                             value="\x02"))
-            if(x == '3'):
-                print 'send'
-                print_output(BLECMD("fd9b",
-                             conn_handle="\x00\x00",
-                             handle="\x25\x00",
-                             value="\x03"))
+                             value="\x03\x00"))
             
-            time.sleep(0.1)
+            time.sleep(3)
         '''
         print_output(BLECMD("fd92",
                                   conn_handle="\x00\x00",
@@ -468,6 +485,11 @@ def ScheEIMA():
     ble_parser.stop()
     
 def EIF():
+
+    Frame=[{"Exe":0.1,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
+           {"Exe":0.1,"Period":0.400,"Deadline":0.400,'Arrival':0,'id':2},
+           {"Exe":0.1,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
+    
     Timeslot=0
     NPEDFRD_f=True
     
@@ -475,22 +497,58 @@ def EIF():
         BLECMD=ble_builder.BLECMD
         print "-------------------------Init Dongle Device-------------------------"
         print_output(BLECMD("fe00"))
-        time.sleep(1)
+        time.sleep(3)
 
         print "-------------------------Connect-------------------------"
         
+        print_output(BLECMD("fe09", peer_addr="\x8C\x64\xAB\x29\x6A\xBC"))#CC2540EM "\x1C\xBA\xD6\x14\x33\x88"
+        time.sleep(1)
         print_output(BLECMD("fe09", peer_addr="\xB6\xBC\x36\x29\x6A\xBC"))#CC2540EM
-        time.sleep(2)
-        print_output(BLECMD("fe09", peer_addr="\x22\xCA\x36\x29\x6A\xBC"))#CC2540EM
-        time.sleep(2)
+        time.sleep(1)
         print_output(BLECMD("fe09", peer_addr="\xF6\x8E\x27\xAF\x59\x90"))#CC2540EM
-        time.sleep(2)
+        time.sleep(1)
+
+        time.sleep(10)
+        
+        conninv = input("Slave_3 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x02\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x02\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
+        
+        conninv = input("Slave_2 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x01\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x01\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
+
+        conninv = input("Slave_1 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x00\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x00\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
         
         I=raw_input("PAUSE")
         
-        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00")#Trigger
-        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x00")#Trigger
-        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x00")#Trigger
+                
+        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x00\x00")#Trigger
         
         #================================================GATT_WriteCharValue
         print datetime.datetime.now().strftime("%H:%M:%S.%f")," Start"
@@ -498,6 +556,7 @@ def EIF():
         TDMAcounter=100
         value=1
         while True:
+            
             #=================Sche
             scheframe=None #list, deadline
             critical=None
@@ -550,17 +609,17 @@ def EIF():
                     print_output(BLECMD("fd9b",
                                         conn_handle="\x00\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
                 if scheframe['id']==2:
                     print_output(BLECMD("fd9b",
                                         conn_handle="\x01\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
                 if scheframe['id']==3:
                     print_output(BLECMD("fd9b",
                                         conn_handle="\x02\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
 
                 time.sleep(scheframe['Exe'])#Connection interval
                 #-----------#
@@ -570,8 +629,9 @@ def EIF():
                 #print "Timeslot=",Timeslot," IDLE"
                 time.sleep(0.01)
                 Timeslot+=0.01
-                if Timeslot>DrawTime:
-                    DrawInfo[2]=1
+            if Timeslot>DrawTime:
+                DrawInfo[2]=1
+            
     except:
         pass
     #=======================================================Disconnect
@@ -687,8 +747,8 @@ def NPEDF():
                 #print "Timeslot=",Timeslot," IDLE"
                 time.sleep(0.01)
                 Timeslot+=0.01
-                if Timeslot>DrawTime:
-                    DrawInfo[2]=1
+            if Timeslot>DrawTime:
+                DrawInfo[2]=1
     except:
         pass
     #=======================================================Disconnect
@@ -701,33 +761,69 @@ def NPEDF():
     ble_parser.stop()
     
 def Table():
-    '''
-    Frame=[{"Exe":0.52,"Period":1,"Deadline":1,'Arrival':0,'id':1},
-           {"Exe":0.54,"Period":2,"Deadline":2,'Arrival':0,'id':2},
-           {"Exe":0.56,"Period":3,"Deadline":3,'Arrival':0,'id':3}]
-    '''
+    
+    Frame=[{"Exe":0.05,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
+        {"Exe":0.1,"Period":0.400,"Deadline":0.400,'Arrival':0,'id':2},
+        {"Exe":0.2,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
+    
     Timeslot=0
     try:
         BLECMD=ble_builder.BLECMD
         print "-------------------------Init Dongle Device-------------------------"
         print_output(BLECMD("fe00"))
-        time.sleep(1)
+        time.sleep(3)
 
         print "-------------------------Connect-------------------------"
         
+        print_output(BLECMD("fe09", peer_addr="\x8C\x64\xAB\x29\x6A\xBC"))#CC2540EM "\x1C\xBA\xD6\x14\x33\x88"
+        time.sleep(1)
         print_output(BLECMD("fe09", peer_addr="\xB6\xBC\x36\x29\x6A\xBC"))#CC2540EM
-        time.sleep(2)
-        print_output(BLECMD("fe09", peer_addr="\x22\xCA\x36\x29\x6A\xBC"))#CC2540EM
-        time.sleep(2)
+        time.sleep(1)
         print_output(BLECMD("fe09", peer_addr="\xF6\x8E\x27\xAF\x59\x90"))#CC2540EM
-        time.sleep(2)
+        time.sleep(1)
+
+        time.sleep(10)
+        #I=raw_input("PAUSE")
         
+        conninv = input("Slave_3 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x02\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x02\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
+        
+        conninv = input("Slave_2 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x01\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x01\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
+
+        conninv = input("Slave_1 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x00\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        #print_output(BLECMD("fd9b",conn_handle = "\x00\x00",handle="\x25\x00",value=conninv))
+        time.sleep(3)
+
         I=raw_input("PAUSE")
         
-        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00")#Trigger
-        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x00")#Trigger
-        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x00")#Trigger
-        
+        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+
         #================================================GATT_WriteCharValue
         print datetime.datetime.now().strftime("%H:%M:%S.%f")," Start"
 
@@ -738,19 +834,19 @@ def Table():
             print_output(BLECMD("fd9b",
                                         conn_handle="\x00\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
             time.sleep(Frame[0]['Exe'])#Connection interval
 
             print_output(BLECMD("fd9b",
                                         conn_handle="\x01\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
             time.sleep(Frame[1]['Exe'])#Connection interval
                 
             print_output(BLECMD("fd9b",
                                         conn_handle="\x02\x00",
                                         handle="\x25\x00",
-                                       value="\x01"))
+                                       value="\x01\x00"))
             time.sleep(Frame[2]['Exe'])#Connection interval
             Timeslot=Timeslot+Frame[0]['Exe']+Frame[1]['Exe']+Frame[2]['Exe']
             if Timeslot>DrawTime:
@@ -844,13 +940,71 @@ def polling():
     print_output(BLECMD("fe0a", conn_handle="\x02\x00"))
     
     ble_parser.stop()
-'''    
-def WSNFrame():
-    app=wx.App()
-    frame = GW_Monitor.IOT_Interface()
-    frame.Show()
-    app.MainLoop()
-'''    
+    
+def ControlSetting():
+    
+    try:
+        BLECMD=ble_builder.BLECMD
+        
+        print "-------------------------Init device-------------------------"
+        print_output(BLECMD("fe00"))
+        time.sleep(1)
+        
+        print "-------------------------Connect CC2540EM-------------------------"
+        print_output(BLECMD("fe09", peer_addr="\x1C\xBA\xD6\x14\x33\x88"))#\x1C\xBA\xD6\x14\x33\x88
+        time.sleep(1)
+        
+        print_output(BLECMD("fe09", peer_addr="\xF6\x8E\x27\xAF\x59\x90"))#\x1C\xBA\xD6\x14\x33\x88
+        time.sleep(1)
+
+        print_output(BLECMD("fe09", peer_addr="\xB6\xBC\x36\x29\x6A\xBC"))#\x1C\xBA\xD6\x14\x33\x88
+        time.sleep(1)
+        
+        I=raw_input("PAUSE")
+        #================================================GATT_WriteCharValue
+        #BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x0E")#Trigger
+        print datetime.datetime.now().strftime("%H:%M:%S.%f")
+        while True:
+            conninv = input("Slave_1 Conn_interval(ms):")
+            conninv = float(conninv)/1.25   #  1.25 / unit
+            conninv = hex(int(conninv))
+            conninv = hexstr_HEX(conninv)                
+            print_output(BLECMD("fe11",
+                         conn_handle = "\x00\x00",
+                         intervalMin = conninv,
+                         intervalMax = conninv))
+            '''
+            case=raw_input("Choose :")
+            if case=='1': 
+                print "Interval to 50ms"
+                print_output(BLECMD("fe11",
+                                    conn_handle="\x00\x00",
+                                    intervalMin="\x14\x00",
+                                    intervalMax="\x14\x00"))
+            if case=='2': 
+                print "Interval to 200ms"
+                print_output(BLECMD("fe11",
+                                    conn_handle="\x01\x00",
+                                    intervalMin="\xA0\x00",
+                                    intervalMax="\xA0\x00"))
+            if case=='3': 
+                print "Interval to 100ms"
+                print_output(BLECMD("fe11",
+                                    conn_handle="\x00\x00",
+                                    intervalMin="\x50\x00",
+                                    intervalMax="\x50\x00"))
+            if case=='4':
+                print_output(BLECMD("fd9b",
+                            conn_handle="\x00\x00",
+                            handle="\x25\x00",
+                            value="\x0D"))
+            '''
+    except:
+        print "=====================ERROR====================="
+        pass
+    print_output(BLECMD("fe0a", conn_handle="\x00\x00"))
+    ble_parser.stop()
+    
 def main():
     #WSNFrame()
 	pass
@@ -861,17 +1015,17 @@ if __name__ == "__main__":
     Draw_BOX=PaintBox(DrawInfo)
     Draw_thread=Thread(target=Draw_BOX.mainloop)
     Draw_thread.start()
-
+    
     #Keyfob()
     #CC2540EM()
     #HM10()
     #SyncNode()
     #ScheEIMA()
-    
+    #ControlSetting()
     #polling()
-    Table()
+    #Table()
     #NPEDF()
-    #EIF()
+    EIF()
     #Timeslot=Timeslot*1000
     
     try:

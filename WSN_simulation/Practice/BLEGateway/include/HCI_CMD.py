@@ -19,6 +19,7 @@ opcodes = {
         "fe30": 'GAP_SetParam',
         "fe31": 'GAP_GetParam',
         "fd9b": 'GATT_Notification',
+        "fe11": 'GAP_Update_Link_Parameter_Request',
     }
 
 '''=======================================
@@ -82,6 +83,12 @@ hci_cmds = {
             {'name': 'authenticated', 'len': 1, 'default': '\x00'},
             {'name': 'handle', 'len': 2, 'default': '\x00\x00'},
             {'name': 'value', 'len': None, 'default': None}],
+        "fe11": [
+            {'name': 'conn_handle', 'len': 2, 'default': '\x00\x00'},
+            {'name': 'intervalMin', 'len': 2, 'default': '\x80\x00'},
+            {'name': 'intervalMax', 'len': 2, 'default': '\x80\x00'},
+            {'name': 'connLatency', 'len': 2, 'default': '\x00\x00'},
+            {'name': 'connTimeout', 'len': 2, 'default': '\x80\x0C'}],
     }
 
 '''=======================================
@@ -222,10 +229,12 @@ def ParseBLERSP(result, Nodeinfo, DrawInfo):
         print "GAP_DeviceInitDone"
         
     if RSPDict['Event']=="GAP_EstablishLink":
-        print "GAP_EstablishLink","ADDR:",RSPDict['Dev Addr'],"Conn Handle:",RSPDict['Conn Handle']
-    
-    if RSPDict['Event']=="ATT_HandleValueNotification":
-        
+        print "GAP_EstablishLink","ADDR:",RSPDict['Dev Addr'],"Conn Handle:",RSPDict['Conn Handle'],"Conn Interval(ms):",int(float(int(RSPDict['Conn Interval'],16))*1.25)
+
+    if RSPDict['Event']=="GAP_LinkParamUpdate":
+        print "GAP_LinkParamUpdate","conn_handle:",RSPDict['Conn Handle'],"conn_interval:",int(float(int(RSPDict['Conn Interval'],16))*1.25)
+
+    if RSPDict['Event']=="ATT_HandleValueNotification":        
         nodeid=int(RSPDict['Conn Handle'])
         pktid=int(RSPDict['Handle'])
         pktid=(int(pktid)/10)-1

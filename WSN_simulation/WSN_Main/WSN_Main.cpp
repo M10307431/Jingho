@@ -23,8 +23,8 @@ using namespace std;
 		Experiment Setting
 ==================================*/
 const float inv_r=40;					//Input 各個rate間距
-const float MIN_Rate=40;				//Input開始的rate
-const float MAX_Rate=960;				//Input最終rate
+const float MIN_Rate=80;				//Input開始的rate
+const float MAX_Rate=480;				//Input最終rate
 const short int Set=100;				//Input set 數量
 
 short int readsetting=1;				//是否要讀取本地Setting.txt
