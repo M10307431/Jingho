@@ -1,4 +1,0 @@
-F:\WSN_Simulation\GENresult\input_single
-Lazy
-EIMA
-EIF

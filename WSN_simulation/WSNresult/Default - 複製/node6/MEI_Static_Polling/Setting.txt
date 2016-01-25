@@ -1,4 +1,0 @@
-F:\WSN_Simulation\GENresult\input_varied_node6
-MEI
-Static
-Polling

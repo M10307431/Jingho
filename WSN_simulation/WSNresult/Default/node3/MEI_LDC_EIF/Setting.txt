@@ -1,4 +1,4 @@
-F:\WSN_Simulation\GENresult\input_varied_node3
+L:\M10207432\JingHo\WSN_simulation\GENresult\input_varied_node3
 MEI
 LDC
 EIF
