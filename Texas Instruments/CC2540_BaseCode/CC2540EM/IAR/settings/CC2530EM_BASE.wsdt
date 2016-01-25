@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+  <CurrentConfigs><Project>CC2530_BASE/JOYSTICK_test</Project></CurrentConfigs></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>284</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1035</ColumnWidth1><ColumnWidth2>276</ColumnWidth2><ColumnWidth3>69</ColumnWidth3></Build>
+    <TerminalIO/><Debug-Log><ColumnWidth0>22</ColumnWidth0><ColumnWidth1>1219</ColumnWidth1></Debug-Log></Static>
+    <Windows>
+      
+      
+    <Wnd0>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-24893-31977</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>CC2530_BASE</ExpandedNode><ExpandedNode>CC2530_BASE/Common.c</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-16719-10824</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        <Tab><Identity>TabID-5666-25672</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\TIMER_Test.c</Filename><XPos>0</XPos><YPos>97</YPos><SelStart>1749</SelStart><SelEnd>1749</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\INTERRUPT_Test.c</Filename><XPos>0</XPos><YPos>66</YPos><SelStart>1650</SelStart><SelEnd>1650</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\ADC_test.c</Filename><XPos>0</XPos><YPos>218</YPos><SelStart>6683</SelStart><SelEnd>6683</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\GPIO_Test.c</Filename><XPos>0</XPos><YPos>48</YPos><SelStart>1257</SelStart><SelEnd>1257</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Common.c</Filename><XPos>0</XPos><YPos>18</YPos><SelStart>555</SelStart><SelEnd>567</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\JOYSTICK_test.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>183</SelStart><SelEnd>183</SelEnd></Tab><ActiveTab>5</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\Hal_lcd.c</Filename><XPos>0</XPos><YPos>410</YPos><SelStart>11388</SelStart><SelEnd>11388</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\DS18B20_test.c</Filename><XPos>0</XPos><YPos>228</YPos><SelStart>5333</SelStart><SelEnd>5333</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\SPI-FLASH_test.c</Filename><XPos>0</XPos><YPos>136</YPos><SelStart>2814</SelStart><SelEnd>2814</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Source\UART-RS232_test.c</Filename><XPos>0</XPos><YPos>60</YPos><SelStart>949</SelStart><SelEnd>949</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-012eb688><key>iaridepm.enu1</key></Toolbar-012eb688></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>720</Bottom><Right>358</Right><x>-2</x><y>-2</y><xscreen>284</xscreen><yscreen>351</yscreen><sizeHorzCX>221875</sizeHorzCX><sizeHorzCY>382353</sizeHorzCY><sizeVertCX>281250</sizeVertCX><sizeVertCY>786492</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>154</Bottom><Right>1282</Right><x>-2</x><y>-2</y><xscreen>1284</xscreen><yscreen>156</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>169935</sizeHorzCY><sizeVertCX>221875</sizeVertCX><sizeVertCY>382353</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+
