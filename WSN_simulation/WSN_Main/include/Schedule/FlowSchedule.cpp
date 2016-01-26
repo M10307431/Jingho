@@ -269,7 +269,7 @@ void CheckPkt(){
 		進入一次只會傳輸payload大小 (20bytes)
 ============================================*/
 void BLE_EDF(Node *node){
-		CheckPkt(); //因很有可能在此進入connection event並結束造成miss算到 (Timeslot有加3)
+		CheckPkt(); //因很有可能在此進入connection event並結束造成miss算到 (在notify時有更新參數，Timeslot有先加3了)
 
 		/*---------------------------------------------
 				判斷Flow 是否為NULL

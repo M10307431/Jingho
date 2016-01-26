@@ -91,17 +91,17 @@ double IOS_ConnectionInterval=20;	//Muliple node中 IOS系統對於device上connection
 		Power function parameter
 ========================================*/
 double Vcc=3.3;					//BLE 驅動電壓
-double I_sleep=0.000001;		//Sleep 電流 1uA
+double I_sleep=0.000001;		//Sleep 電流 1uA				spec.上的資料，實測可能會在400uA~1uA跳動，若要跟實作match，直接在function中開啟400uA，不要在這改會影響EIMA weight
 double Time_sleep=0.001;		//Sleep 時間 1ms (uint time)
 double I_notify=0.008246;		//Notify 電流 8.246mA
-double Time_notify=0.002675;	//Notify 時間 2.675ms
-double I_Tran=0.009564;			//Transmission 電流 14.274mA
+double Time_notify=0.002675;	//Notify 時間 2.675ms			在timeslot會作加2修正event耗的時間
+double I_Tran=0.009564;			//Transmission 電流 14.274mA    spec.P13 state3~7
 double Time_Tran=0.00182;		//Transmission 時間 0.49ms
 double BatteryCapacity=0.230;	//230mAh (有其他篇章 是以540mAh <Energy Efficient MAC for Qos Traffic in Wireless Body Area Network)>
 double unit=0.001;				//時間單位為1ms
 
 /*========================================
-		Create Object
+		Create Object320
 ========================================*/
 EventInterval Interval_obj;
 TDMA TDMA_obj;

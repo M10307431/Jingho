@@ -49,7 +49,7 @@ extern "C"
 /*-------------------------------------------------------------------
  * INCLUDES
  */
-
+#include "gap.h"
 /*-------------------------------------------------------------------
  * CONSTANTS
  */
@@ -114,6 +114,9 @@ typedef enum
 #define GAPROLE_RESEND_PARAM_UPDATE          1 // Continue to resend request until successful update
 #define GAPROLE_TERMINATE_LINK               2 // Terminate link upon unsuccessful parameter updates
 
+#define GAPOBSERVERROLE_BD_ADDR        0x400  //!< Device's Address. Read Only. Size is uint8[B_ADDR_LEN]. This item is read from the controller.
+#define GAPOBSERVERROLE_MAX_SCAN_RES   0x401  //!< Maximum number of discover scan results to receive. Default is 0 = unlimited.
+
 /*-------------------------------------------------------------------
  * MACROS
  */
@@ -143,10 +146,28 @@ typedef void (*gapRolesRssiRead_t)( int8 newRSSI );
 /**
  * Callback structure - must be setup by the application and used when gapRoles_StartDevice() is called.
  */
+ /**
+ 
+ * Observer Event Callback Function
+ */
+typedef union
+{
+  gapEventHdr_t             gap;                //!< GAP_MSG_EVENT and status.
+  gapDeviceInitDoneEvent_t  initDone;           //!< GAP initialization done.
+  gapDeviceInfoEvent_t      deviceInfo;         //!< Discovery device information event structure.
+  gapDevDiscEvent_t         discCmpl;           //!< Discovery complete event structure.
+} observerRoleEvent_t;
+
+typedef void (*gapObserverEventCB_t)
+(
+  observerRoleEvent_t *pEvent         //!< Pointer to event structure.
+);
+
 typedef struct
 {
   gapRolesStateNotify_t    pfnStateChange;  //!< Whenever the device changes state
   gapRolesRssiRead_t       pfnRssiRead;     //!< When a valid RSSI is read from controller
+  gapObserverEventCB_t     observerCB;      //!< Observer Event callback.
 } gapRolesCBs_t;
 
 /*-------------------------------------------------------------------
@@ -277,6 +298,8 @@ extern uint16 GAPRole_ProcessEvent( uint8 task_id, uint16 events );
 
 /*-------------------------------------------------------------------
 -------------------------------------------------------------------*/
+extern bStatus_t GAPObserverRole_StartDiscovery( uint8 mode, uint8 activeScan, uint8 whiteList );
+extern bStatus_t GAPobserverRole_CancelDiscovery(void);
 
 #ifdef __cplusplus
 }

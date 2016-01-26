@@ -22,7 +22,7 @@
   its documentation for any purpose.
 
   YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+  PROVIDED “AS IS?WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
   INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
   NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
   TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
@@ -156,6 +156,9 @@ static uint16 gapRole_ConnSlaveLatency = 0;
 static uint16 gapRole_ConnTimeout = 0;
 
 static uint8 paramUpdateNoSuccessOption = GAPROLE_NO_ACTION;
+
+static uint8  gapObserverRoleBdAddr[B_ADDR_LEN];
+static uint8  gapObserverRoleMaxScanRes = 0;
 
 // Application callbacks
 static gapRolesCBs_t *pGapRoles_AppCGs = NULL;
@@ -468,7 +471,18 @@ bStatus_t GAPRole_SetParameter( uint16 param, uint8 len, void *pValue )
           }
         }
         break;
-  
+
+      case GAPOBSERVERROLE_MAX_SCAN_RES:
+        if ( len == sizeof ( uint8 ) )
+        {
+          gapObserverRoleMaxScanRes = *((uint8*)pValue);
+        }
+        else
+        {
+          ret = bleInvalidRange;
+        }
+        break;
+        
     default:
       // The param value isn't part of this profile, try the GAP.
       if ( (param < TGAP_PARAMID_MAX) && (len == sizeof ( uint16 )) )
@@ -686,7 +700,7 @@ void GAPRole_Init( uint8 task_id )
   GAP_RegisterForHCIMsgs( gapRole_TaskID );
 
   // Initialize the Profile Advertising and Connection Parameters
-  gapRole_profileRole = GAP_PROFILE_PERIPHERAL;
+  gapRole_profileRole = GAP_PROFILE_PERIPHERAL|GAP_PROFILE_OBSERVER;
   VOID osal_memset( gapRole_IRK, 0, KEYLEN );
   VOID osal_memset( gapRole_SRK, 0, KEYLEN );
   gapRole_signCounter = 0;
@@ -883,7 +897,9 @@ static void gapRole_ProcessOSALMsg( osal_event_hdr_t *pMsg )
 static void gapRole_ProcessGAPMsg( gapEventHdr_t *pMsg )
 {
   uint8 notify = FALSE;   // State changed notify the app? (default no)
-
+  uint8 isObserverMsg = FALSE;
+  
+  
   switch ( pMsg->opcode )
   {
     case GAP_DEVICE_INIT_DONE_EVENT:
@@ -1100,6 +1116,13 @@ static void gapRole_ProcessGAPMsg( gapEventHdr_t *pMsg )
         }
       }
       break;
+      
+   case GAP_DEVICE_DISCOVERY_EVENT:
+   case GAP_DEVICE_INFO_EVENT:
+      {
+        isObserverMsg = TRUE;
+      } 
+      break;
 
     default:
       break;
@@ -1113,6 +1136,15 @@ static void gapRole_ProcessGAPMsg( gapEventHdr_t *pMsg )
       pGapRoles_AppCGs->pfnStateChange( gapRole_state );
     }
   }
+  else if ( isObserverMsg == TRUE )
+  {
+    if (pGapRoles_AppCGs && pGapRoles_AppCGs->observerCB )
+    {
+      pGapRoles_AppCGs->observerCB( (observerRoleEvent_t *) pMsg );
+    }
+  }
+  
+  
 }
 
 /*********************************************************************
@@ -1128,7 +1160,7 @@ static void gapRole_ProcessGAPMsg( gapEventHdr_t *pMsg )
 static void gapRole_SetupGAP( void )
 {
   VOID GAP_DeviceInit( gapRole_TaskID,
-          gapRole_profileRole, 0,
+          gapRole_profileRole, gapObserverRoleMaxScanRes,
           gapRole_IRK, gapRole_SRK,
           &gapRole_signCounter );
 }
@@ -1251,3 +1283,26 @@ bStatus_t GAPRole_SendUpdateParam( uint16 minConnInterval, uint16 maxConnInterva
 
 /*********************************************************************
 *********************************************************************/
+
+
+
+/**
+ * @brief   Start a device discovery scan.
+ *
+ * Public function defined in observer.h.
+ */
+bStatus_t GAPObserverRole_StartDiscovery( uint8 mode, uint8 activeScan, uint8 whiteList )
+{
+  gapDevDiscReq_t params;
+
+  params.taskID = gapRole_TaskID;
+  params.mode = mode;
+  params.activeScan = activeScan;
+  params.whiteList = whiteList;
+
+  return GAP_DeviceDiscoveryRequest( &params );
+}
+
+bStatus_t GAPobserverRole_CancelDiscovery(void){
+	return GAP_DeviceDiscoveryCancel(gapRole_TaskID);
+}

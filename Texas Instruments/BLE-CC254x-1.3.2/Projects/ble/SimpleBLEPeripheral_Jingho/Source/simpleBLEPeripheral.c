@@ -39,6 +39,7 @@
   #include "oad_target.h"
 #endif
 
+#include "observer.h"
 /*********************************************************************
  * MACROS
  */
@@ -119,6 +120,39 @@ uint8 BufferQueue[30][20]; // 20 bytes/pkt
 PeriodicEvent_Create PERIODIC_EVENT[AMOUNT_OF_EVENT];
 static void InBuf(uint16 taskid);
 
+// ======================================Observer Application states
+// Discovey mode (limited, general, all)
+#define DEFAULT_DISCOVERY_MODE                DEVDISC_MODE_GENERAL //	DEVDISC_MODE_LIMITED ,DEVDISC_MODE_GENERAL  ,DEVDISC_MODE_ALL
+// TRUE to use active scan
+#define DEFAULT_DISCOVERY_ACTIVE_SCAN         TRUE
+// TRUE to use white list during discovery
+#define DEFAULT_DISCOVERY_WHITE_LIST          FALSE
+// Maximum number of scan responses
+#define DEFAULT_MAX_SCAN_RES                  8
+// Scan result list
+static gapDevRec_t simpleBLEDevList[DEFAULT_MAX_SCAN_RES];
+// Number of scan results and scan result index
+static uint8 simpleBLEScanRes;
+static uint8 simpleBLEScanIdx;
+
+// Scanning state
+static uint8 simpleBLEScanning = FALSE;
+volatile int SCANDATA_Flag=0;
+
+#define MAX_CONNECTIONS                       3
+#define DEFAULT_SCAN_DURATION                 4000//ms
+#define DEFAULT_SCAN_INTERVAL		      32 //N*625us 32
+#define DEFAULT_SCAN_WINDOW                   32 //N*625us 32
+
+#define ROLE_CENTRAL                          1
+#define ROLE_PERIPHERAL                       2
+// TRUE to use high scan duty cycle when creating link
+#define DEFAULT_LINK_HIGH_DUTY_CYCLE          FALSE
+// TRUE to use white list when creating link
+#define DEFAULT_LINK_WHITE_LIST               FALSE
+
+static void observerEventCB(observerRoleEvent_t *pEvent);
+static void simpleBLEAddDeviceInfo(uint8 *pAddr, uint8 addrType);
 /*********************************************************************
  * EXTERNAL VARIABLES
  */
@@ -223,7 +257,8 @@ static char *bdAddr2Str ( uint8 *pAddr );
 static gapRolesCBs_t simpleBLEPeripheral_PeripheralCBs =
 {
   peripheralStateNotificationCB,  // Profile State Change Callbacks
-  NULL                            // When a valid RSSI is read from controller (not used by application)
+  NULL,                            // When a valid RSSI is read from controller (not used by application)
+  observerEventCB
 };
 
 // GAP Bond Manager Callbacks
@@ -407,7 +442,28 @@ void SimpleBLEPeripheral_Init( uint8 task_id )
   HCI_EXT_MapPmIoPortCmd( HCI_EXT_PM_IO_PORT_P0, HCI_EXT_PM_IO_PORT_PIN7 );
 
 #endif // defined ( DC_DC_P0_7 )
-
+  /*===========================================================
+					CENTRAL APP STARTUP
+  ===========================================================*/  
+  {
+	uint8 scanRes=DEFAULT_MAX_SCAN_RES;
+	GAPRole_SetParameter( GAPOBSERVERROLE_MAX_SCAN_RES, sizeof( uint8 ), &scanRes );
+  }
+  // Set SCAN interval
+  {
+	GAP_SetParamValue( TGAP_GEN_DISC_SCAN, DEFAULT_SCAN_DURATION );
+	GAP_SetParamValue( TGAP_LIM_DISC_SCAN, DEFAULT_SCAN_DURATION );
+		
+    GAP_SetParamValue( TGAP_CONN_SCAN_WIND , DEFAULT_SCAN_WINDOW );
+	GAP_SetParamValue( TGAP_CONN_SCAN_INT , DEFAULT_SCAN_INTERVAL );
+	
+	GAP_SetParamValue( TGAP_GEN_DISC_SCAN_WIND , DEFAULT_SCAN_WINDOW );
+	GAP_SetParamValue( TGAP_GEN_DISC_SCAN_INT  , DEFAULT_SCAN_INTERVAL );
+	
+	GAP_SetParamValue( TGAP_LIM_DISC_SCAN_WIND , DEFAULT_SCAN_WINDOW );
+	GAP_SetParamValue( TGAP_LIM_DISC_SCAN_INT, DEFAULT_SCAN_INTERVAL );
+  }
+  
   /****** Buffer Queue init *********/
   HEAD_BUFFER->size=Buf_size;
   HEAD_BUFFER->count=0;
@@ -473,7 +529,7 @@ uint16 SimpleBLEPeripheral_ProcessEvent( uint8 task_id, uint16 events )
     if ( (pMsg = osal_msg_receive( simpleBLEPeripheral_TaskID )) != NULL )
     {
       simpleBLEPeripheral_ProcessOSALMsg( (osal_event_hdr_t *)pMsg );
-
+	  
       // Release the OSAL message
       VOID osal_msg_deallocate( pMsg );
     }
@@ -485,8 +541,8 @@ uint16 SimpleBLEPeripheral_ProcessEvent( uint8 task_id, uint16 events )
   if ( events & SBP_START_DEVICE_EVT )
   {
     // Start the Device
-    VOID GAPRole_StartDevice( &simpleBLEPeripheral_PeripheralCBs );
-
+	VOID GAPRole_StartDevice( &simpleBLEPeripheral_PeripheralCBs );
+	
     // Start Bond Manager
     VOID GAPBondMgr_Register( &simpleBLEPeripheral_BondMgrCBs );
 
@@ -662,6 +718,7 @@ static void simpleBLEPeripheralProcessGattMsg(gattMsgEvent_t *pMsg)
 		if(recvmsg>=6){
 			GAPRole_SendUpdateParam(recvmsg,recvmsg,0,1000,TRUE);
 		}
+		
 	}
 }
 /*************************************
@@ -744,10 +801,23 @@ static void simpleBLEPeripheral_HandleKeys( uint8 shift, uint8 keys )
   *****************************************************/					
   if ( keys & HAL_KEY_LEFT )
   {
-    //SK_Keys |= SK_KEY_LEFT;
-	#if (defined HAL_LCD) && (HAL_LCD == TRUE)
-		//HalLcdWriteStringValue( "Key:", 1, 10,  HAL_LCD_LINE_8);
-	#endif
+    if(!simpleBLEScanning){
+		
+		GAPObserverRole_StartDiscovery( DEFAULT_DISCOVERY_MODE,
+										  DEFAULT_DISCOVERY_ACTIVE_SCAN,
+										  DEFAULT_DISCOVERY_WHITE_LIST ); 
+		simpleBLEScanning=TRUE;
+		#if (defined HAL_LCD) && (HAL_LCD == TRUE)
+			HalLcdWriteStringValue( "Scan...", 1, 10,  HAL_LCD_LINE_7);
+		#endif
+	}else{
+		
+		simpleBLEScanning=FALSE;
+		GAPobserverRole_CancelDiscovery();
+		#if (defined HAL_LCD) && (HAL_LCD == TRUE)
+			HalLcdWriteStringValue( "Disable Discovering", 1, 10,  HAL_LCD_LINE_7);
+		#endif
+	}
   }
   /*****************************************************
 					RIGHT KEY
@@ -1023,6 +1093,127 @@ char *bdAddr2Str( uint8 *pAddr )
   return str;
 }
 #endif // (defined HAL_LCD) && (HAL_LCD == TRUE)
+
+/*********************************************************************
+ * @fn      observerCB
+ *
+ * @brief   Notification from the Observer Role of an event.
+ *
+ * @param   newState - new state
+ *
+ * @return  none
+ */
+
+static void observerEventCB( observerRoleEvent_t *pEvent )
+{
+  switch ( pEvent->gap.opcode )
+  {
+    case GAP_DEVICE_INIT_DONE_EVENT:  
+      {
+        //HalLcdWriteString( "BLE Observer", HAL_LCD_LINE_1 );
+        //HalLcdWriteString( bdAddr2Str( pEvent->initDone.devAddr ),  HAL_LCD_LINE_2 );
+      }
+      break;
+	  
+	//============================================找到DEVICES
+    case GAP_DEVICE_INFO_EVENT:
+      {
+		#if (defined HAL_LCD) && (HAL_LCD == TRUE)
+			HalLcdWriteStringValue( "GAP_DEVICE_INFO_EVENT", simpleBLEScanRes,10, HAL_LCD_LINE_5 );
+		#endif
+        simpleBLEAddDeviceInfo( pEvent->deviceInfo.addr, pEvent->deviceInfo.addrType ); 
+		
+		/*---------------------------------------
+					Response Data
+		---------------------------------------*/
+		
+		uint8 RSParray[20];
+		osal_memcpy( RSParray, pEvent->deviceInfo.pEvtData, sizeof(RSParray) );
+		
+		HalLcdWriteString( RSParray+2, HAL_LCD_LINE_4 );	
+		/*
+		if(pEvent->deviceInfo.pEvtData[2]=='S'){
+			SCANDATA_Flag=1;
+			//osal_set_event( simpleBLEPeripheral_TaskID, SBP_BURST_EVT );
+			
+			//HalLcdWriteString( "Get Response", HAL_LCD_LINE_4 );	
+			GAPobserverRole_CancelDiscovery();
+		}
+		*/
+      }
+      break;
+		
+	//============================================結束SCAN (SCAN DURATION)
+    case GAP_DEVICE_DISCOVERY_EVENT:
+      {
+        // discovery complete
+        simpleBLEScanning = FALSE;
+
+        // Copy results
+        simpleBLEScanRes = pEvent->discCmpl.numDevs;
+        osal_memcpy( simpleBLEDevList, pEvent->discCmpl.pDevList,
+                     (sizeof( gapDevRec_t ) * pEvent->discCmpl.numDevs) );
+        #if (defined HAL_LCD) && (HAL_LCD == TRUE)
+			HalLcdWriteStringValue( "Devices Found", simpleBLEScanRes,
+                                10, HAL_LCD_LINE_1 );
+		#endif
+		/*
+		if(!SCANDATA_Flag){
+			GAPObserverRole_StartDiscovery( DEFAULT_DISCOVERY_MODE,
+										  DEFAULT_DISCOVERY_ACTIVE_SCAN,
+										  DEFAULT_DISCOVERY_WHITE_LIST ); 
+		}
+		*/
+        if ( simpleBLEScanRes > 0 )
+        {
+          HalLcdWriteString( "<- To Select", HAL_LCD_LINE_5 );
+        }
+
+        // initialize scan index to last device
+        simpleBLEScanIdx = simpleBLEScanRes;
+      }
+      break;
+      
+    default:
+		#if (defined HAL_LCD) && (HAL_LCD == TRUE)
+			HalLcdWriteStringValue( "Default", simpleBLEScanRes,10, HAL_LCD_LINE_6 );
+		#endif
+      break;
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleBLEAddDeviceInfo
+ *
+ * @brief   Add a device to the device discovery result list
+ *
+ * @return  none
+ */
+static void simpleBLEAddDeviceInfo( uint8 *pAddr, uint8 addrType )
+{
+  uint8 i;
+  
+  // If result count not at max
+  if ( simpleBLEScanRes < DEFAULT_MAX_SCAN_RES )
+  {
+    // Check if device is already in scan results
+    for ( i = 0; i < simpleBLEScanRes; i++ )
+    {
+      if ( osal_memcmp( pAddr, simpleBLEDevList[i].addr , B_ADDR_LEN ) )
+      {
+        return;
+      }
+    }
+    
+    // Add addr to scan result list
+    osal_memcpy( simpleBLEDevList[simpleBLEScanRes].addr, pAddr, B_ADDR_LEN );
+    simpleBLEDevList[simpleBLEScanRes].addrType = addrType;
+    
+    // Increment scan result count
+    simpleBLEScanRes++;
+  }
+}
+
 
 /*********************************************************************
 *********************************************************************/
