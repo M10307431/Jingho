@@ -10,6 +10,7 @@ extern double BatteryCapacity;
 extern double unit;			//時間單位為10ms
 extern double parma;
 extern double parmb;
+extern bool practice;		//配合實作I_sleep 400uA
 
 void NodeEnergy();
 void NodeState();

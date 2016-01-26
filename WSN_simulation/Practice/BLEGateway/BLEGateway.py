@@ -863,11 +863,11 @@ def Table():
     ble_parser.stop()
     
 def polling():
-    '''
-    Frame=[{"Exe":0.52,"Period":1,"Deadline":1,'Arrival':0,'id':1},
-           {"Exe":0.54,"Period":2,"Deadline":2,'Arrival':0,'id':2},
-           {"Exe":0.56,"Period":3,"Deadline":3,'Arrival':0,'id':3}]
-    '''
+    
+    Frame=[{"Exe":0.05,"Period":0.200,"Deadline":0.200,'Arrival':0,'id':1},
+           {"Exe":0.1,"Period":0.400,"Deadline":0.400,'Arrival':0,'id':2},
+           {"Exe":0.2,"Period":0.800,"Deadline":0.800,'Arrival':0,'id':3}]
+    
     Timeslot=0
     try:
         BLECMD=ble_builder.BLECMD
@@ -877,17 +877,52 @@ def polling():
 
         print "-------------------------Connect-------------------------"
         
-        print_output(BLECMD("fe09", peer_addr="\x1C\xBA\xD6\x14\x33\x88"))#CC2540EM
+        print_output(BLECMD("fe09", peer_addr="\x8C\x64\xAB\x29\x6A\xBC"))#CC2540EM "\x1C\xBA\xD6\x14\x33\x88"
         time.sleep(1)
-        print_output(BLECMD("fe09", peer_addr="\xF0\xBF\x36\x29\x6A\xBC"))#CC2540EM
+        print_output(BLECMD("fe09", peer_addr="\xB6\xBC\x36\x29\x6A\xBC"))#CC2540EM
         time.sleep(1)
         print_output(BLECMD("fe09", peer_addr="\xF6\x8E\x27\xAF\x59\x90"))#CC2540EM
+        time.sleep(1)
+
+        time.sleep(10)
         
+        #I=raw_input("PAUSE")
+        
+        conninv = input("Slave_3 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x02\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        time.sleep(3)
+        
+        conninv = input("Slave_2 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x01\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        time.sleep(3)
+
+        conninv = input("Slave_1 Conn_interval(ms):")
+        conninv = float(conninv)/1.25   #  1.25 / unit
+        conninv = hex(int(conninv))
+        conninv = hexstr_HEX(conninv)                
+        print_output(BLECMD("fe11",
+                     conn_handle = "\x00\x00",
+                     intervalMin = conninv,
+                     intervalMax = conninv))
+        time.sleep(3)
+
         I=raw_input("PAUSE")
         
-        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x0E")#Trigger
-        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x0E")#Trigger
-        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x0E")#Trigger
+        BLECMD("fd9b",conn_handle="\x00\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x01\x00", handle="\x25\x00",value="\x00\x00")#Trigger
+        BLECMD("fd9b",conn_handle="\x02\x00", handle="\x25\x00",value="\x00\x00")#Trigger
         
         #================================================GATT_WriteCharValue
         print datetime.datetime.now().strftime("%H:%M:%S.%f")," Start"
@@ -897,39 +932,43 @@ def polling():
         while True:
             #==================================R1
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x00\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x00\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[0]['Exe'])#Connection interval
             #==================================R2
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x00\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x00\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[0]['Exe'])#Connection interval
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x01\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x01\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[1]['Exe'])#Connection interval
             #==================================R3
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x00\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x00\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[0]['Exe'])#Connection interval
 
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x01\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x01\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[1]['Exe'])#Connection interval
                 
             print_output(BLECMD("fd9b",
-                                        conn_handle="\x02\x00",
-                                        handle="\x25\x00",
-                                       value="\x0D"))
+                                conn_handle="\x02\x00",
+                                handle="\x25\x00",
+                                value="\x01\x00"))
             time.sleep(Frame[2]['Exe'])#Connection interval
+            
+            Timeslot=Timeslot+Frame[0]['Exe']+Frame[1]['Exe']+Frame[2]['Exe']
+            if Timeslot>DrawTime:
+                    DrawInfo[2]=1
     except:
         pass
     #=======================================================Disconnect
@@ -1022,10 +1061,10 @@ if __name__ == "__main__":
     #SyncNode()
     #ScheEIMA()
     #ControlSetting()
-    #polling()
+    polling()
     #Table()
     #NPEDF()
-    EIF()
+    #EIF()
     #Timeslot=Timeslot*1000
     
     try:
