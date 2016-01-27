@@ -37,7 +37,7 @@ int EXECBclock=200;						//Lazy Timer (ms)
 int dec_cof=5;							//Lazy的decrease係數
 bool EIMADemand_flag=false;				//判斷EIMA計算是否要用demand bound計算
 
-bool practice = true;					//配合實作I_sleep 400uA
+bool practice = false;					//配合實作I_sleep 400uA
 
 /*=================================
 		Global value
