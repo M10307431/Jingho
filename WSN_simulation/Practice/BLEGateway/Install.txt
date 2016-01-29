@@ -1,0 +1,3 @@
+PIL	==>   pip install XXX.whl
+pyserial==>   easy-install pyserail
+wx <64bits>

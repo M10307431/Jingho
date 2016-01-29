@@ -1061,8 +1061,8 @@ if __name__ == "__main__":
     #SyncNode()
     #ScheEIMA()
     #ControlSetting()
-    #polling()
-    Table()
+    polling()
+    #Table()
     #NPEDF()
     #EIF()
     #Timeslot=Timeslot*1000
