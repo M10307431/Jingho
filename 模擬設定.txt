@@ -1,0 +1,24 @@
+. readsetting=1 -> 由本地端讀取input
+. 1.複製.\WSN_simulation\WSNresult\Default\node3 > .\WSNresult
+. 2.設定readsetting=1，設中斷點至main不讓他執行，只要產生exe檔就好
+. 3.至剛剛複製的node資料夾中，將每個方法的setting.txt做讀取路徑及方法設定，\WSN_simulation\GENresult\input_varied_node3 (Gen的input位置)
+. 4.複製exe至方法資料夾中，直接執行即可
+. 5.全部跑完後，parse.py會將FinalResult的資料整理成兩個txt(GNU畫圖用)及cvs(整理每個方法的效能)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
