@@ -1,0 +1,671 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{epsfig}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage[loose]{subfigure}
+\usepackage{silence}
+\usepackage{color}
+\ifCLASSOPTIONcompsoc
+% requires cite.sty v4.0 or later (November 2003)
+\usepackage[nocompress]{cite}
+\else
+\usepackage{cite}
+\fi
+
+\newcommand{\algorithmicinput}{\textbf{Input:}}
+\newcommand{\INPUT}{\item[\algorithmicinput]}
+\newcommand{\algorithmicoutput}{\textbf{Output:}}
+\newcommand{\OUTPUT}{\item[\algorithmicoutput]}
+\newcommand{\eqdef}{\overset{def}{=}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{mydef}{Definition}
+
+%\titleformat{\section}[hang]{\raggedright\large\rm}{\thesection}{0.2cm}{}
+%\titleformat{\subsection}[hang]{\raggedright\large\rm}{\thesubsection}{0.2cm}{}
+%\titlespacing{\section}{0cm}{3mm}{5mm}
+%\titlespacing{\subsection}{0cm}{3mm}{5mm}
+
+\def\bibsection{\section*{References}}
+%\addtolength\textheight{5\baselineskip}
+%\pdfpageheight\paperheight
+%\usepackage[sort]{natbib}
+%\bibliographystyle{plainnat}
+%\bibliographystyle{unsrtnat}
+
+
+%====================================================
+%            Document
+%====================================================
+\begin{document}
+\hyphenation{}
+
+\title{An Energy-efficient Scheduling Framework for Multiple Bluetooth Low Energy Nodes}
+\author{Jing-Ho Chen, and~Ya-Shu~Chen \\
+        Department of Electrical Engineering\\
+        National Taiwan University of Science and Technology\\
+        Taipei City, Taiwan, ROC\\
+        m10207432@mail.ntust.edu.tw and yschen@mail.ntust.edu.tw}
+
+%====================================================
+%           Abstract
+%====================================================
+\maketitle
+{\begin{abstract}
+Bluetooth Low Energy (BLE) is a wireless protocol that provides low-power communication for battery-driven devices. This protocol includes a connection parameter for extending the sleep time of BLE nodes. The protocol guarantees acceptable latency for sensing applications, partially by setting this connection parameter to pessimistic values; this can lead to excessive energy consumption. This paper presents a practicable energy-efficient scheduling framework for multiple BLE nodes with various data rates and latency constraints. We propose a connection parameter determination method and a blocking-aware scheduler for improving energy consumption and reducing blocking. The proposed methodology was evaluated through extensive experiments. The results revealed that the proposed algorithms prolonged the network lifetime by $170\%$ compared with a simple pessimistic setting.
+
+% and a real-life case study
+\end{abstract}
+
+\begin{IEEEkeywords}
+Bluetooth Low Energy, Real-time Scheduling, Power Management, Wireless Sensor Networks
+\end{IEEEkeywords}
+
+}
+
+%====================================================
+%                  Chapter1 Introduction
+%====================================================
+\section{Introduction}~\label{sec:introduction}
+
+%fix:buffer overflow??憿獐??? Lazy?芸楛?祕撽?iOS憟賢??
+Power management in wireless devices is critical because such devices rely on limited energy supplies (i.e., batteries), and communication modules usually consume more power compared with the processors \cite{phuong2015real}. Because considerable demand has emerged for the Internet of Things, Bluetooth Low Energy (BLE) has been proposed to minimize energy consumption in sensor nodes. BLE enables designers to adjust the connection intervals of adjacent devices that exchange data through master and slave roles. The connection interval affects energy consumption and the latency of data communications \cite{USG_CC2540}. Designers typically consider the usage parameters for the system and choose the connection interval parameter as a fixed value, such as $20~ms$ for iOS \cite{iOSdefault} and SPP-over-BLE profile \cite{BLE112}. Short connection intervals increase energy consumption, but long connection intervals increase latency.
+
+%, e.g, \cite{kindt2015adaptive} have proposed the dynamic connection interval scaling framework for the multiple applications with varied data rates in single sensor node
+Real-time applications are increasingly deployed in wireless devices (e.g., health monitors, industrial control systems, and home security). Latency may be critical for certain applications; for example, a wearable health monitor must send abnormal heart rate information to its master device within a limited amount of time. Moreover, each wearable device might run multiple applications to monitor multiple types of information (e.g., electrocardiography, heartrate, and electromyography information). Different programs would have varying data rates and latency requirements (deadline constraints). The critical issue of how to minimize energy consumption with multiple latency constraints for several applications with various data rates has raised. A typical device network on the Internet of Things consists of multiple decentralized nodes, instead of a single node. In contrast to traditional wireless protocols, the BLE protocol does not support carrier sense multiple access with collision avoidance (CSMA/CA), because the individual physical channel is used for all nodes to conserve energy. When multiple BLE nodes are considered, the energy conservation challenge is complicated by the multiple node transmission scheduling problem and the latency constraints of various applications.
+
+% or shared transmission schedule (e.g., TDMA)
+
+To conserve energy for multiple latency-sensitive BLE nodes, this study explores three technical problems: (1) the determination of the required connection interval for a sensor node, having multiple applications with varied data rates and latency constraints; (2) the assignment of a connection interval for each network node for energy minimization without violating latency constraints; and (3) the scheduling of node transmissions to resolve data collisions and meet latency constraints.
+
+We propose an energy-efficient framework to solve these three problems; our framework prolongs the network lifetime and satisfies quality of service (latency) constraints. We also propose a demand packet estimation method for determining the required connection interval for each BLE slave without buffer overflows. We present an energy-efficient connection interval assignment that enables balancing the tradeoff between runtime blocking and energy consumption for a maximized network lifetime. We present a blocking-aware write-request scheduler that schedules node transmissions to maximize the quality of service. The evaluation results revealed that a considerable amount of energy can be conserved using this framework.
+%, and its practicability was evidenced using a real-life case study
+
+
+
+The remainder of this paper is organized as follows. Section \ref{sec:BLEinfo} introduces the BLE protocol property in wireless sensor networks and a survey of the relevant studies. Section \ref{sec:prob} presents the system model and the BLE node problem. In Section \ref{sec:WSN_SYS}, we propose our energy-efficient scheduling framework for multiple BLE nodes, including the service rate and connection interval of each node. Section \ref{sec:Per_eval} provides our evaluation of the proposed approach in various situations.
+%Section \ref{sec:CS} details a real-life body sensor network to show the performance of these proposals in practice.
+Finally, Section \ref{sec:con} offers a conclusion.
+
+
+\section{Background and Related Work}~\label{sec:BLEinfo}
+This section presents the properties of the BLE protocol and the technical challenges involved with these properties within the context of relevant studies.
+
+\begin{figure*}[tbhp!!]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Connection Event]{\label{fig:evt_schedule}
+\includegraphics[width=0.45\linewidth]{EventNotify_Model.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Average Current]{\label{fig:Lifetime}
+\includegraphics[width=0.45\linewidth]{Lifetime.eps}}\vspace{-0.5em}
+\caption{Connection Interval} %\label{fig:Lifetime} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+
+\subsection{The Connection Event in BLE Protocol}
+In a BLE network, nodes communicate through master-slave relationships. Each communication includes synchronization and a data exchange, and is called a {\it connection event}. These connection events occur periodically, and the period is determined by a {\it connection interval}. As shown in Fig. \ref{fig:evt_schedule}, when a connection event occurs, both master and slave nodes awake. The master sends a data request to the slave, and then the slave sends data and an acknowledgment to the master. After the transmission is complete, the BLE modes of both the master and slave nodes are set to sleep mode. When certain data are sensed by the slave-node processor, these data are stored in the slave buffer, to be transmitted during the next connection event.
+In other words, no data transmission can occur unless a connection event occurs. The data payload of each packet in the BLE protocol is $20$ bytes. When the data buffer contains multiple packets, packets are sent in sequence during a single connection event.
+
+Although longer connection intervals result in longer waiting times for data exchange, longer connection intervals also result in lower average currents (Fig. \ref{fig:Lifetime}), because long sleep durations consume little current. Most BLE nodes have a limited battery capacity, and thus, network administrators typically adjust connection intervals to maximize the lifetime of the network. This raises the issue of how to determine the optimal connection interval for a slave node for maximizing the lifetime of the network when providing an acceptable quality of service (for all packets).
+
+
+
+\subsection{Multiple Slave Nodes with Star Topology}
+In contrast to the original bluetooth protocol, the BLE protocol conserves energy by organizing data transmission among multiple nodes as a star topology, rather than as an ad hoc piconet (Fig.~\ref{fig:piconet}). As shown in Fig.~\ref{fig:BLE phy} \cite{cho2015performance}, all slave nodes use a uniform physical channel with time division multiple access (TDMA) to communicate separately with the master. Therefore, each slave node can only wake up during its connection event; the slave node cannot remain awake to listen for incoming connections.
+
+
+
+Because the BLE protocol is based on a master-slave relationship, the BLE protocol does not support CSMA/CA with a shared physical channel, and therefore, the collision problem \cite{wang2007upstream, osthus2011concurrent, mikhaylov2014accelerated, jang2013asynchronous} can occur, as shown in Fig.~\ref{fig:NoTDMA_Model}; multiple packets are sent by a slave node $Slave_2$, but the slave node $Slave_1$ simultaneously begins its connection event and sends a packet to the master node. The packet sent by $Slave_2$ is dropped. To resolve this issue, a write-request idea was proposed in \cite{kindt2015adaptive}, according to which the master node assigns connection intervals to slave nodes and requests sensing data by writing from slaves, as shown in Fig.~\ref{fig:TDMA_Model}. This motivates researchers to determine appropriate connection intervals for multiple slave nodes, which prevents collisions and maximizes the lifetime of network.
+
+\begin{figure*}[tbhp!!]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Bluetooth Piconet]{\label{fig:piconet}
+\includegraphics[width=0.4\linewidth]{Bluetooth_Sync.eps}}\vspace{-0.5em}
+\centering
+\subfigure[BLE Star]{\label{fig:BLE phy}
+\includegraphics[width=0.4\linewidth]{BLE_Sync.eps}}\vspace{-0.5em}
+\caption{Bluetooth and BLE} \label{star_topology} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+\begin{figure*}[tbhp!!]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Collision Issue]{\label{fig:NoTDMA_Model}
+\includegraphics[width=0.55\linewidth]{NoTDMA_Model.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Write-Request Scheduling]{\label{fig:TDMA_Model}
+\includegraphics[width=0.42\linewidth]{TDMA_Model.eps}}\vspace{-0.5em}
+\caption{Multiple Nodes Scheduling} \label{NoTDMA_vs_TDMA} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+%\subsection{Mesh}
+%Based on the star topology, there ara no slave, already connect to master can connect to another salve for exchanging data in wide network. To transmit data through longer distance, a BLE mesh topology is proposed by \cite{zhang2005energy} in which a new hardware as slave to slave bridge is required. In this paper, we propose a new idea to implement a mesh topology without new hardware supporting.
+%
+%According to connection capability, there are $4$ roles can be assigned into a node, i.e., central, peripheral, observer, and broadcaster. The central role is observing nodes and connecting to the others, peripheral role is broadcasting and can be connected by the master node. The observer role only can observing nodes but cannot connect to a node, and the broadcaster only broadcasting its sensing data but cannot be connected \cite{decuir2013bluetooth}. The idea is to make some slave nodes implement multi-roles and named as connection nodes ($Conn\ Node$). As shown in Fig.~{\ref{fig:WSN_Model}}, the connection nodes connect the master node and a farther slave node. Without the master connection, a farther slave node is implemented by the broadcaster and called as a advertisement node ($Adv\ Node$). The connection node plays the observer role to discover the broadcasting packets from advertisement nodes, and the also plays the peripheral role to transmit data to the master node. However, the longer broadcast interval performed by advertisement nodes causes longer discovery latency in connection node \citet{liu2012modeling} and results a higher energy consumption \citet{treurniet2015energy}. In the other hand, the shorter broadcast interval results a higher energy consumption of advertisement nodes. The third technique issue is how to determine the broadcast interval for such slave nodes under mesh topology to maximize the lifetime of nodes and provides the quality of service.
+%
+%
+%\begin{figure*}[!tbhp]
+%\begin{minipage}[b]{\linewidth}
+%\centering
+%\includegraphics[width=0.6\textwidth]{WSN_Model.eps}
+%\caption{Wireless sensor network}\label{fig:WSN_Model}
+%\end{minipage}
+%\end{figure*}
+\subsection{Related Work}~\label{sec:RW} %fix:more related work for single node , add packet scheduling and energy efficient polling papers, power model, add iOS
+
+
+
+Numerous studies \cite{yang2012optimal,el2002energy,wu2015efficient} have investigated energy efficient packet transmission problems in wireless sensor networks. In \cite{yang2012optimal}, the transmission rate was adjusted with the energy state and traffic load to minimize the packet delivery duration. In \cite{el2002energy}, the offline and online schedules for packet transmission were analyzed in terms of delays and energy performance levels. In \cite{wu2015efficient}, a low-complexity online schedule for packets balanced energy consumption and latency. Various real-time issues for wireless sensor networks (e.g., body sensor networks) are increasingly regarded as pivotal.
+Several studies \cite{aquino2008wireless, zhu2011mbstar} have presented the real-time communication with earliest deadline first (EDF) scheduler in wireless sensor networks. Individual packet deadlines were studied in \cite{uysal2002energy}, which presented a channel-coding scheme for lowering the transmission power with deadline constraints. In \cite{zhang2015nearly}, an optimal packet scheduling is proposed to guarantee the maximum throughput for the case where only two different deadlines are allowed. In \cite{shan2014optimal}, energy consumption was minimized with deadline constraints and Densest Interval First policy. In \cite{collotta2013deadline}, the deadline miss ratio was analyzed in existing real-time scheduling algorithms under the Bluetooth protocol. In \cite{mutilplepkt}, event delivery latency and the event delivery ratio were used to satisfy latency requirements with multiple packets.
+
+
+The BLE protocol has been proposed to minimize the energy consumption of sensor nodes. The BLE protocol differs from traditional WiFi and Zigbee protocols, because it allows packet exchanges between master and slave nodes only during a connection event, rather than at any time. The energy-efficient scheduling of BLE involves prioritizing the connection intervals of individual slave nodes, rather than packets. In \cite{dementyev2013power}, the power consumption levels for BLE, ZigBee, and Ant were compared under various data rates. In \cite{giovanelli2015bluetooth}, throughput and power consumption were evaluated for data-streaming applications with various connection intervals and streaming packets, and the findings showed that the connection interval significantly effected the energy. In \cite{kindt2015adaptive}, a dynamic connection interval scaling framework was proposed for multiple applications with various data rates in a sensor node.
+
+
+In contrast to single-node issues, packet collision issues in networks with multiple nodes are more critical. In \cite{ergen2010tdma}, node-based and level-based scheduling was proposed through a distributed coloring of each node for constructing the TDMA table of each node. In \cite{sadi2013optimal}, the authors proposed assigning each node an active time in an ultrawideband-based network by using a makespan scheduler. Regarding latency constraints, the authors in \cite{ chipara2013real} supported the real-time queries of wireless cyber-physical systems, and proposed Real-Time Query Scheduling to satisfy real-time constraints without considering runtime packet collisions. In \cite{perillo2003asp}, authors proposed adaptive share polling to balance latency and power consumption. To minimize energy consumption, the authors in \cite{doudou2013duo} proposed Low Duty cycle (LDC) and High Duty cycle (HDC) to serve the network and determine intervals between two successive channel polling for real-time traffic. In \cite{contreras2011adaptive}, authors proposed dynamically scaled polling intervals to conserve energy for multimedia traffic. In \cite{collotta2015bluetooth}, authors proposed a fuzzy control system for smart home power management that prolonged the lifetime of the network without real-time consideration. A priority polling schedule for prolonging the lifetime and reducing latency in health care applications is proposed in \cite{jacob2015energy}. In \cite{phuong2015real}, authors used a wake-one-radio to set the RX sniff duration; this satisfied latency constraints in a low-energy wireless sensor network. In \cite{osthus2011concurrent}, authors proposed analyzing the probability of collisions with various connection intervals. Even with different protocols in the same connection interval, a longer interval was found to lead to low probabilities of a collision. The present study examines the energy minimization issue for multiple BLE nodes with latency considerations.
+
+
+\section{System Model and Problem Formulation}~\label{sec:prob}
+This study explores an energy-efficient scheduling method to prolong the lifetime for a BLE network while maintaining the quality of service. With a set of BLE sensor nodes $N=\{n_1, n_2, ..., n_m\}$, each node $n_i$ has multiple periodic sensing applications $E_{n_i}=\{e_1, e_2,..., e_h\}$ and each application is denoted as $e_i=(\mu_i, p_i)$ where $\mu_i$ denotes the bytes of sensing data, and $p_i$ denotes the sensing period. The lifetime of the set of sensor nodes is the duration from when nodes become active to when the battery of any node is exhausted. The lifetime $L(n_i)$ of each node $n_i$ is defined by the ratio of battery capability $C$ to the average current of the node $I_{n_i}$. The current of the node varies with the connection interval. Based on the specification of a BLE node \cite{MEASURE_BLE}, the average current of the node $I_{n_i}$ can be estimated by the active current $I_a$, the active duration for a packet $T_{a}$, the sleep current $I_{s}$, and the connection interval $C_{n_i}$ of a node $n_i$. When a single packet is considered, the current $I_{n_i}$ of each node $n_i$ can be regarded as $\frac{I_{a} \times T_{a} +I_{s}\times (C_{n_i}- T_{a})}{C_{n_i}}$ \footnote{When multiple packets are considered, the transmission current and the number of packets shall be taken into account as shown in Eq.~\ref{equ:set_avg_conn}.}.
+Therefore, a longer connection interval can extend the lifetime of the network, but it might violate the latency constraints of the sensors.
+However, the relationship between connection intervals and current levels is not linear as shown in Fig.~\ref{fig:Lifetime}.
+
+This study proposes determining connection intervals with a runtime scheduler that ensures the quality of service of the network and maximizes the lifetime of multiple BLE nodes. In this paper, we assume that the network has error-free links, packet losses in the link layer were not considered. If packet loss is considered, our approach can be extended with a loss rate, and details can be found in \cite{gomez2011modeling}. The present study proposes buffering all packets at the application level, and determining when all buffered packets are to be sent. We reserve the whole connection interval as the response duration for the packet scheduler in the link layer. The packet scheduler in the link layer can apply existing algorithms, such as First Come First Served with TDMA \cite{paulreview}.
+
+
+
+%fix:如果packet loss考慮，大概要加在哪裡?
+
+
+%\subsection{Current Consumption Model}~\label{sec:currmodel}
+%
+%The connection or advertisement node should be calculated the average current for estimating the lifetime of node, and lifetime is the main equation for our proposal to perform the experiment.
+%With our assumption, the event is periodically sensing data, loaded in the buffer, and waiting till the connection or advertisement event arrival. However, the radio current is hard consuming the battery capacity so in the current equation, we only consider the radio current consumption for the node.
+%In the $Conn\ Node$, the current would consumed by connection event and discovery function. The consumption of connection event is influenced by connection interval, estimated for quality-of-service and that of discovery is caused by data rate of $Adv\ Node$ and discovery latency in equ.\ref{equ:dis}. In equ.\ref{equ:avg_conn}, it shows that the capacity of connection event is evaluated by connection interval ($C_{n_i}$) and capacity of amount of sequence packets ($Q_t$) in equ. \ref{equ:qt}. In equ. \ref{equ:qc}, The current consumption in connection event ($I^{conn}_{a}$) actives in duration of time, denoted as $T^{conn}_{a}$ with the amount of the ratio of hyper-period ($HP$) to $T_c$ and the capacity of connecion event is denoted as $Q_c$. In the equ. \ref{equ:qt}, it presents the sequence packets in one connection event and its current consumption is denoted as $I_t$ actives in duration of time $T_t$ with the amount of sequence packets {$\frac{HP}{p_i}\times \lceil{\frac{\mu_i}{\delta}}\rceil$} without default amount of connection event ($\frac{HP}{T_c}$). In the discovery mode, in equ. \ref{equ:dis} the capcacity of discovery ($Q_{dis}$) is estimated by peak current ($I_p$) for duration discovery ($T_{dis}$) and it occurs according to minimum period of packet in $Adv\ Node$, denoted as $min(P_j, \forall j \in Adv\ Node)$.
+%Finally, in equ. \ref{equ:avg_conn}, the average current ($I^{conn}_{avg}$) is calculated by ratio of summation of capacity of connection event ($Q_c$), sequence packets ($Q_t$), discovery ($Q_{dis}$)
+%and the sleep current ($I_{s}$),remain in the rest of time, not in active mode in hyper-period ($HP-\frac{Q_c}{T^{conn}_{a}}-\frac{Q_t}{I_{t}}-\frac{Q_{dis}}{I_p}$) to hyper-period ($HP$).
+%Another consumption of $Adv\ Node$ is simpler than $Conn\ Node$, because it only considers the current consumption in broadcasting channel. In equ.\ref{equ:avg_adv}, the current consumption of advertisement event ($I^{adv}_{a}$) actives in duration of time, denoted as $T^{adv}_{a}$, the advertisment interval is event period ($T_{adv}$), and the remain time is in sleep mode.
+%%We assume each node is supplied by the battery, whose capacity is 230mAh. With the limit capacity, the lifetime could be perform the node's performance. In the
+%
+%\begin{multline}
+%    {Q_c}={(\frac{HP\times I^{conn}_{a} \times T^{conn}_{a}}{T_c})} \label{equ:qc}
+%\end{multline}
+%\begin{multline}
+%    {Q_t}={[{\sum\limits_{i \in Conn Node} (\frac{HP}{p_i}\times \lceil{\frac{\mu_i}{\delta}}\rceil})-\frac{HP}{T_c}]\times I_{t} \times T_{t}} \label{equ:qt}
+%\end{multline}
+%\begin{multline}
+%    {Q_{dis}}={(\frac{HP\times I_p \times T_{dis}}{min(p_j, \forall j \in Adv\ Node)})} \label{equ:qdis}
+%\end{multline}
+%
+%\begin{multline}
+%    {I_{avg}^{conn}}=\frac{Q_c+Q_t+Q_{dis}}{HP}+\\
+%                        \frac{I_s \times (HP-\frac{Q_c}{I^{conn}_{a}}-\frac{Q_t}{I_{t}}-\frac{Q_{dis}}{I_p})}{HP} \label{equ:avg_conn}
+%    %{I_{avg}^{conn}}=   \frac{(\frac{HP\times I^{conn}_{a} \times T^{conn}_{a}}{T_c})}{HP} + \\
+%    %                    \frac{[{\sum\limits_{i \in Conn Node} (\frac{HP}{p_i}\times \lfloor{\frac{\mu_i}{\delta}}\rfloor})-\frac{HP}{T_c}]\times I_{t} \times T_{t} }{HP}+\\
+%    %                    +\frac{(\frac{HP\times I_p \times T_{dis}}{min(P_j, \forall j \in Adv\ Node)})}{HP}  +\\
+%    %                    \frac{I_{s} \times [HP-\frac{HP \times T^{conn}_{a} \times N_{seq}}{T_c} -\frac{HP \times T_{dis}}{min(P_j, \forall j \in Adv\ Node)}]}{HP} \label{equ:avg_conn}
+%    %{I_{c}^{avg}}={\frac{\alpha_{c} \times \beta_{c}+\gamma \times (T_{c}-\beta_{c})}{T_{c}}} \label{equ:avg_conn}
+%    %{I_{c}^{avg}}={\frac{8.2463m\times 2.675m+0.001m\times (T_{c}-2.675m)}{T_{c}}}
+%\end{multline}
+%\begin{multline}
+%    {I_{adv}^{avg}}={\frac{I^{adv}_{a} \times T^{adv}_{a} + I_{s} \times (T_{adv}-T^{adv}_{a})}{T_{adv}}} \label{equ:avg_adv}
+%    %{I_{adv}^{avg}}={\frac{9.86m\times 3.655m+0.001m\times (T_{adv}-3.655m)}{T_{adv}}}
+%\end{multline}
+%
+%%-----scan, adv & conn
+%The scan function is observing the surrounding nodes and its listening execution time is between 20m to 10.24 seconds. The current of the scan function is static, it is near 17.5mA.
+%The advertisement function is broadcasting its response packet to the node, which is scanning. The average current of the advertising function is consideration with the advertising interval and switching channel overhead. Its peak current will active in three radio channels in each event, so it would cause high average current than connection event, with one packet.
+%Furthermore, the connection function is for sending and receiving packet between each node, which is in connection state. The node of the connection state need to periodic acknowledge with another one, the acknowledge period is called connection interval, which is similar with the advertisement interval. The execution time of connection interval is from 7.5m to 4 seconds.
+%
+%%-----Scan duration ->current, adv & conn ->avg urrent, Lifetime
+%In the scan duration, the amount of the correspond advertising node and each node's advertising interval would affect it.
+%In equ.~\ref{equ:dis}, it labels the longest latency, affected by the advertisement interval ($T^{adv}_{a}$) and $T_{proc,disc}$ the most, the $T^{adv}_{a}$ affects to discovery the correspond advertisement event and the $T_{proc,disc}$ is the simulation result setting in \cite{treurniet2015energy}, so we use the equ.~\ref{equ:procdis}, referenced from \cite{liu2012modeling}, to show the duration of successfully scanning with different scanning duty cycle. In the scan duty cycle, the duration of switch channel is denoted as $T_{scan\_interval}$, and active scanning time is denoted as $T_{scan\_win}$.
+%In this study, we only consider the varied $T^{adv}_{a}$ and amount of advertisement nodes to perform the discovery latency, so assume the other parameters as static.
+%\begin{multline}
+%     {T_{dis}}={(0.5 \times T^{adv}_{a} + T_{proc,disc})} \times {e^{\frac{2N_{adv}}{3\times {(0.5\times{T^{adv}_{a}+T_{proc,disc}}})}}} \label{equ:dis}
+%\end{multline}
+%\begin{multline}
+%{T_{proc,disc}} = {{b \times \frac{T_{scan\_win}}{T_{scan\_interval}}}} +\\{T^{adv}_{a} \times \frac{T_{scan\_interval}-T_{scan\_win}}{T_{scan\_interval}}} \label{equ:procdis}
+%\end{multline}
+
+%\cite{liu2012modeling} models the discovery process to analyze the discovery latency
+
+
+
+%====================================================
+%                       Chapter3
+%====================================================
+\section{Energy-efficient Scheduling Framework for Multiple BLE Nodes}~\label{sec:WSN_SYS}
+This section presents the proposed energy-efficient scheduling framework for multiple BLE nodes; service interval determination for multiple applications is discussed in Section~\ref{sec:MEI}; the connection interval assignment of each node is described in Section~\ref{sec:EIMA}; and the runtime scheduler is explained in Section~\ref{sec:EIF}.
+%=========------------------------------------=========
+%                       Section 3-1
+%=========------------------------------------=========
+%\subsection{Framework}~\label{sec:framework}
+
+\begin{figure*}[!tbhp]
+\centering
+\includegraphics[width=0.9\textwidth]{framework.eps}
+\caption{The Energy-efficient Scheduling Framework for Multiple BLE Nodes}\label{fig:framework}
+\end{figure*}
+
+As show in Figure~{\ref{fig:framework}}, each BLE slave node is added to the network, and all application properties (i.e., $e_i=(\mu_i, p_i)$) are sent to the master node. The master node gathers all information and determines the service interval while considering latency by using the {\bf Multiple Event Interval} (MEI) method shown in Algorithm~\ref{alg:MEI}. The master node adjusts the connection interval to extend the network lifetime, and avoids online collisions by using the {\bf Energy Efficiency Interval Multiple Access} (EIMA) method shown in Algorithm~\ref{alg:EIMA}. After all connection intervals of each node have been determined, all the runtime packets of each slave node are scheduled using the {\bf Shortest Interval First} (SIF) method shown in Algorithm~\ref{alg:EIF} to maximize the quality of service by considering how non-preemptive data transmission might cause blocking.
+
+\subsection{Multiple-Event Energy Efficiency Interval}\label{sec:MEI}
+
+\begin{algorithm}[h!]
+  \caption{: MEI}
+  \label{alg:MEI}
+  \begin{algorithmic}[1]
+   \INPUT
+    A set of applications $E_{n_i}=\{e_1, e_2,..., e_j\}$, and each application $e_i$ with the bytes of sensing data $\mu_i$ and the period $p_i$, the maximum data bytes of a packet $\delta$, and the maximum sequence packets of an event $\Delta$
+   \OUTPUT
+        The service interval $D$
+       \State Sort $E_{n_i}$ according to the period of each application in non-decreasing order
+       \State Set $D$ as the minimal period in $E_{n_i}$.
+       \While {$E_{n_i}$ is not null}
+            \State {Move the first element from $E_{n_i}$ to $E'_{n_i}$}
+            \State {Set the $S$ as the maximum period in $E'_{n_i}$}
+            \While {$\sum_{\forall i \in E'_{n_i}} \lceil{\frac{\mu_i}{\delta}}\rceil \times {\lceil{\frac{S}{p_i}}\rceil} > {\lfloor{\frac{S}{D}}\rfloor} \times {\Delta}$}
+                \State {$D = D - 1$}
+            \EndWhile
+        \EndWhile
+        \State {Return $D$}
+\end{algorithmic}
+\end{algorithm}
+
+
+To minimize the energy consumption of each node, the idea is to assign a service interval, which is the duration required for the slave to return its data to the master. It is convenient to provide the slave node with the most possible time. When considering only a single node with one software application, the connection interval of the node is equal to its required service interval. However, to provide service to each application in a single node with several software programs, the separate demands of different programs must be estimated to assign a proper service interval. The details are shown in Algorithm~\ref{alg:MEI}.
+
+With a set of periodic sensing applications $E_{n_i}=\{e_1, e_2,..., e_h\}$, such that each application is denoted as $e_i=(\mu_i, p_i)$ where $\mu_i$ denotes the bytes of sensing data, and $p_i$ denotes the sensing period, we sort all applications according to their periods, in non-increasing order. To meet the latency constraints of all applications, the service interval must not be shorter than the minimal period of all applications (Steps 1-2). In this study, multiple applications with various sensing periods (sensing rate) were considered. When multiple periods are considered, the supplied number of packets of the given service interval (i.e., ${\lfloor{\frac{S}{D}}\rfloor} \times {\Delta}$, where $\Delta$ represents the maximum sequential packets of an event) must be no less than all the sensing packets of all the applications (i.e, $\sum_{\forall i \in E'_{n_i}} \lceil{\frac{\mu_i}{\delta}}\rceil \times {\lceil{\frac{S}{p_i}}\rceil}$, where $\delta$ is the maximum data bytes of a packet) within time interval $S$. Because the maximum sequence packets $\Delta$ and maximum data bytes of a packet $\delta$ are limited, all required packets of each application can be estimated individually. The algorithm estimates the required packet quantities by iterating through periods, from the shortest to the longest period. If the currently assigned service interval ($D$) is too large, then a proper service interval must be assigned according to the required packets (Steps 3-7). In steps 6-7, the service intervals decrease sequentially, because the service interval in the decision equation (step 6) is located by the floor operation. If the periods of the applications are harmonic, the time complexity of the {\bf Multiple-Event Energy Efficiency Interval} is $\Omega({h})$, where $h$ is the number of applications. Otherwise, the time complexity is $O(p_{min})$, where $p_{min}$ is the minimal period of applications, but the exact time complexity can be reduced when certain periods are divisible. No buffer overflow is in our framework, because none of the service intervals are shorter than the minimum period.
+
+
+\subsection{Energy Efficiency Interval Multiple Access}\label{sec:EIMA}
+
+\begin{algorithm}[h!]
+    \caption{: EIMA}
+    \label{alg:EIMA}
+    \begin{algorithmic}[1]
+
+        \INPUT
+           Given a set of sensor nodes $N=\{n_1, n_2, ..., n_m\}$ and each node $n_i$ with its service interval $D_{n_i}$
+        \OUTPUT
+            The connection interval of each node
+        \For {each node $n_i$ in $N$}
+            \State Estimate the average required current of each node
+                \begin{equation}
+                W_{n_i}=\frac{(I_{a} \times T_{a})+(D_{n_i} - T_{a})\times{I_s}}{D_{n_i}}  \label{equ:alg_L}
+                \end{equation}
+            \State  $W_{sum}=W_{sum}+ W_{n_i}$
+        \EndFor
+        \For {each node $n_i$ in $N$}
+            \State  $C_{n_i}=D_{n_i} \times \frac{W_{n_i}}{W_{sum}}$
+            \State Assign $C_{n_i}$ to node $n_i$
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+After we assign the proper service interval to each node with multiple applications, the next technical question is on how to determine the connection interval to avoid data collisions (Fig~\ref{fig:NoTDMA_Model}) when multiple slave nodes are considered. The master can communicate with one slave node while blocking all other nodes; if other nodes are not blocked, some packet loss might occur by collision. To provide a connection interval of each node with appropriate blocking, the intuitive approach is to assign each connection interval as a ratio of the number of nodes to the shortest service interval for all nodes. If this is performed, the waiting time of each slave node is shorter than the required service interval. For example, with three nodes and a shortest service interval of $60~ms$, then the connection interval can be reassigned as $20~ms$ to meet the latency constraints of all applications. However, a shorter connection interval entails greater energy consumption, as shown in Fig~\ref{fig:Lifetime}. Without loss of generality, certain nodes might have applications with long periods; these nodes can be serviced by long connection intervals; this can extend the lifetime of these nodes, but it might result in unacceptably long blocking times for other nodes.
+
+In this section, we present a method that reassigns nodes' connection intervals according to the current levels required by these nodes and the average lifetime of a node in the network. The details are shown in Algorithm~\ref{alg:EIMA}. With the service interval of a node as estimated in Algorithm~\ref{alg:MEI}, we measure the required average current of that node by solving Eq.~(\ref{equ:alg_L}), and then reassign its connection interval by multiplying the ratio of its required average current to the summation of the required average currents for all nodes. When the connection interval gap is limited, the connection interval setting can be revised as $C_{n_i}=\lfloor \frac{D_{n_i} \times \frac{W_{n_i}}{W_{sum}}}{\omega}\rfloor \times \omega$, where $\omega$ is the minimal connection interval gap (e.g., $1.25~ms$).
+
+The idea behind Algorithm~\ref{alg:EIMA} can be explained with Fig~\ref{fig:EIMA_Concept1}; with the service intervals of three nodes, we can have the estimated current weights $W_1$, $W_2$ and $W_3$. Node $n_3$, which has the longest service interval, has the lowest current $W_3$. The assigned connection interval of $n_3$ is considerable shorter than its service interval to minimize the blocking times of nodes $n_1$ and $n_2$. However, to minimize the required current for extending the lifetime of the system, the connection interval of node $n_1$, which has the shortest service interval, is closer to its service interval than to that of node $n_3$. The time complexity of {\bf Energy Efficiency Interval Multiple Access} is $O(m)$, where $m$ is the number of nodes.
+
+
+\begin{figure*}[tbhp!!]
+\begin{minipage}[b]{\linewidth}
+\centering
+{\includegraphics[width=0.49\linewidth]{EIMA_Concept1.eps}}\vspace{-0.5em}
+%\subfigure[EIMA with higher data rate]{\label{fig:EIMA_Concept2}
+%\includegraphics[width=0.49\linewidth]{EIMA_Concept2.eps}}\vspace{-0.5em}
+\caption{EIMA Concept} \label{fig:EIMA_Concept1} %\label{fig:Lifetime} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+
+
+%fix: change output as service interval, change the notation, change the decrease method
+\subsection{Shortest Interval First Scheduler}\label{sec:EIF}
+
+\begin{algorithm}[h!]
+  \caption{: SIF}
+  \label{alg:EIF}
+  \begin{algorithmic}[1]
+
+  \INPUT
+  A set of sensor nodes $N=\{n_1, n_2, ..., n_m\}$, each node $n_i$ has multiple periodic sensing applications $E_{n_i}=\{e_1, e_2,..., e_h\}$.
+  \While{The system is running}
+  \If{The system in initialized or a new node $n_i$ is added into the system}
+   \For {each $n_i$ in $N$}
+    \State Estimate the service interval $D_{n_i}$ by MEI($E_{n_i}$)
+    \State $d_{n_i}=D_{n_i}$
+    \State $a_{n_i}=0$
+   \EndFor
+   \State Estimate connection interval of each node by EIMA($N$)
+   \State Set $t$ as the time unit with initial value $0$
+  \EndIf
+
+    \State Find the node $n_j$ with $a_{n_j} \geq t$ and the shortest deadline $d_{n_j}$ in $N$
+    \State Find the node $n_k$ with the shortest deadline $d_{n_k}$  in $N$
+   \If {$j \neq k$}
+    \If {$\lfloor \frac{d_{n_k}}{C_{n_k}} \rfloor \times C_{n_k} \leq t + C_{n_j}$}
+        \State Wait for $n_k$ arrival
+        \State $t=a_{n_k}$
+        \State $j=k$
+    \EndIf
+   \EndIf
+
+    \State Write request to $n_j$ for data transmission
+    \State $a_{n_j}=a_{n_j}+D_{n_j}$
+    \State $d_{n_j}=d_{n_j}+D_{n_j}$
+    \State $t=t+C_{n_j}$
+   \EndWhile
+   \end{algorithmic}
+\end{algorithm}
+
+This section presents a runtime scheduler that guarantees the quality of service of the system. This scheduler forbids certain scheduling events to prevent collisions and synchronization problems. The scheduler implements a write-request model, in which the master node schedules the times at which it must request data from slave nodes, and each slave node is assigned a specific connection interval. The slave nodes conserve energy by only waking up to connect. Each slave node has only one connection interval during which it can transmit data, namely the connection interval authorized by the master node for that particular slave node. When the master requests data from any particular slave node, all other slave nodes are blocked. In a previous section, we proposed EIMA, which assigns connection intervals to minimize the blocking time for each node. An EDF scheduler can schedule nodes to guarantee the quality of service, but EDF might cause relatively long blocking times for nodes with relatively short deadlines if the nodes do not have their packets ready. The SIF scheduler, however, chooses nodes with the shortest deadlines, regardless of whether they are ready. The details of our proposed SIF scheduler are expressed as Algorithm~\ref{alg:EIF}.
+
+When the system is initiated, and whenever any new node is added to the system, the MEI (Algorithm~\ref{alg:MEI}) is used to estimate each service interval required to accommodate all of the packets on each node. The master node sets the service interval of each node as the relative deadline of each node with multiple packets to be scheduled. Afterward, EIMA (Algorithm~\ref{alg:EIMA}) is used to calculate the potential interference from multiple nodes, and to set the connection interval of each node. During runtime, each slave node wakes up to receive the connection parameters (during its connection interval)(Steps 2-8). The initial scheduling time is set as $0$. The scheduler first finds the unique slave node that is ready with the shortest absolute deadline ($n_j$) and the node with the shortest absolute deadline, regardless of arrival time ($n_k$) (Steps 10-12). If the latest time for the last connection event before the deadline of node $n_k$ ($\lfloor \frac{d_{n_k}}{C_{n_k}} \rfloor \times C_{n_k}$) is less than the blocking time caused by node $n_j$ ($ t + C_{n_j}$), to meet the latency constraint of node $n_k$, the master node remains idle without any requests until node $n_k$ is ready, whereupon the master node resets the scheduling time to be equal to the arrival time of node $n_k$ (Steps 13-19). Otherwise, the master requests the chosen slave node ($n_j$) with the shortest absolute deadline. Afterward, the master updates the absolute deadline and arrival time of the corresponding node by increasing it with the required service interval. The master node also updates the next scheduling time by increasing the current time ($t$) with the connection interval of the serviced node to avoid collisions and multiple node access problems. In other words, the master remains in the current physical channel of the connection event until all ready packets have been served or until the maximum packet number has been reached (Steps 20-24). The time complexity is $O({m})$ when the system is initialized, and $O(\log(m))$ otherwise, where $m$ is the number of nodes.
+
+
+
+%=========------------------------------------=========
+%                       Section 3-6
+%=========------------------------------------=========
+%\newpage
+\subsection{Example}\label{sec:example}
+This section presents three BLE slave nodes $n_1$, $n_2$ and $n_3$ with different applications as an example of the effectiveness of the proposed framework. In node $n_1$, two applications, $e_1=(10bytes, 100ms)$ and $e_2=(10bytes, 200ms)$, exist. In node $n_2$, two applications, $e_1=(10bytes, 500ms)$ and $e_2=(30bytes, 500ms)$, exist. Node $n_3$ contains three applications, all of which have $10~bytes$ of load and a $1000~ms$ period.
+Assume that the maximum number of packets $\Delta$ per connection event is $2$, and the maximum bytes per packet $\delta$ is $20$~bytes.
+
+%The average current ($I_{avg}$) od each node is ($\frac{T_a \times I_a + (T_c-T_a)\times I_s}{T_c}$) and then the lifetime is estimated as $\frac{C}{I_{avg}}$, which $C$ is 230mAh,
+%MEI
+As shown in Algorithm~\ref{alg:EIF}, the service interval of each node is estimated by MEI (Algorithm~\ref{alg:MEI}) to guarantee the quality of service of all applications in all slave nodes. The service intervals of $n_1$, $n_2$, and $n_3$ are $100$, $250$ and $500$~ms, respectively. When the greedy approach is applied, the service intervals of $n_1$, $n_2$, and $n_3$ are $100$, $500$ and $1000$~ms, respectively.
+The required number of packets for node $n_3$ is $\lceil{\frac{10}{20}}\rceil \times \lceil{\frac{1000ms}{1000ms}}\rceil + \lceil{\frac{10}{20}}\rceil \times \lceil{\frac{1000ms}{1000ms}}\rceil + \lceil{\frac{10}{20}}\rceil \times \lceil{\frac{1000ms}{1000ms}}\rceil=3$ when the service interval is $1000~ms$.
+However, because the maximum number of packets in each connection event is $2$, one packet cannot be transmitted within the connection event. This results in a failure to guarantee the quality of service.
+
+
+After assigning the service interval of each node, EIMA (Algorithm~\ref{alg:EIMA}) is used to estimate the connection interval by considering the access needs of multiple nodes. The current settings are based on the CC$2541$ chip \cite{MEASURE_BLE}, in which $I_{a}$ is $8.246~mA$, $T_{a}$ is $2.675~ms$, and $I_s$ is $0.001~mA$.
+The average required current levels for nodes $n_1$, $n_2$, and $n_3$ are $0.221\ (\frac{2.675 \times 8.246 + (100-2.675)\times 0.001}{100})$, $0.089$ and $0.045$, respectively. The connection interval of each node is then set as the product of the service interval and the weight ratio. The connection intervals of nodes $n_1$, $n_2$, and $n_3$ are $62.254\ (100 \times \frac{0.221}{0.335})$, $62.675$ and $63.378$, respectively. Under the BLE protocol, the minimal connection interval gap is $1.25~ms$, and thus, the connection intervals of nodes $n_1$, $n_2$, and $n_3$ are $61.25\ (\lfloor \frac{62.2540}{1.25} \rfloor \times 1.25)$, $62.5$ and $62.5$, respectively. If the greedy approach is applied, to meet the service interval constraint with three slave nodes accessing the network, the connection intervals of $n_1$, $n_2$, and $n_3$ can be all set to $\frac{100}{3}~ms$.
+
+%fix: can we shorter the schedule length to 450??
+After a connection interval is assigned for each node, the proposed scheduler (SIF in Algorithm~\ref{alg:EIF}) schedules each node by calculating from the node with the shortest absolute deadline. The absolute deadline is derived from the service interval. Assume that all nodes are ready at time $0$; the absolute deadlines of $n_1$, $n_2$, and $n_3$ are $100$, $250$ and $500$~ms, respectively. The master node requests slave node $n_1$ first and updates the absolute deadline of node $n_1$ to be $200~ms$. Afterward, the master waits for a response during the connection interval (i.e., $61.25~ms$). At $61.25~ms$, the master requests node $n_2$ and updates the absolute deadline of $n_2$ as $500~ms$, and then waits for a response from $n_2$ within the connection interval (i.e., $62.5~ms$). At $123.75~ms$, the master requests $n_1$ again and updates the absolute deadline of $n_1$ as $300~ms$. At $185~ms$, the ready node with the shortest deadline is node $n_3$, and the node with the shortest deadline is node $n_1$. Node $n_1$ will be awake at $245~ms$, and again at $306.25~ms$ based on the connection interval. If the master requests node $n_3$, the next scheduling time is $247.5~ms$. Consequently, node $n_1$ will be requested at $306.25~ms$, and all packets with deadlines of $300~ms$ will violate latency constraints. Based on SIF, $\lfloor \frac{300}{61.25} \rfloor \times 61.25 \leq (185 + 62.5)$, implies that node $n_3$ blocks node $n_1$, which has a shorter absolute deadline. Therefore, the master must not perform any action until $200~ms$. The detailed schedule is shown in Fig~\ref{fig:Ex_EIF}.
+
+
+
+We applied an RR method with a greedy connection interval setting to this problem, and the results and the detailed schedule are shown in Fig. \ref{fig:Ex_Table}. The Round Robin first schedules node $n_1$ before node $n_2$, after which it schedules node $n_3$.
+A comparison between Fig~\ref{fig:Ex_EIF} and \ref{fig:Ex_Table} shows that the response times in Fig~\ref{fig:Ex_Table} are better than those displayed in Fig~\ref{fig:Ex_EIF}. However, the required energy consumption in Fig~\ref{fig:Ex_Table} is nearly twice that in Fig~\ref{fig:Ex_EIF} because of the shorter connection interval setting. A detailed performance comparison with energy consumption and the meet ratio is provided in Section~\ref{sec:Per_eval}.
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\centering
+\includegraphics[width=1\textwidth]{Example_EIMA_EIF.eps}
+\caption{EIMA with SIF Scheduler}\label{fig:Ex_EIF}
+\end{minipage}
+\end{figure*}
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\centering
+\includegraphics[width=1\textwidth]{Example_Static_Table.eps}
+\caption{Greedy with Round Robin Scheduler}\label{fig:Ex_Table}
+\end{minipage}
+\end{figure*}
+
+%In this section, we compared our approach with the related works \cite{zhu2011mbstar, kindt2015adaptive, shan2014optimal} by conducting experiments entailing the use of different data rates of nodes and different number of nodes.
+
+\section{Performance Evaluation}~\label{sec:Per_eval}
+In this section, we evaluate three approaches for service interval determination in a single node (MEI), connection interval assignment for all nodes (EIMA), and runtime blocking-aware scheduling (SIF). We consider lifetimes and meet ratios with various data rates and several numbers of nodes. We describe the experimental setup in \ref{sec:exp-setting}.
+Section~\ref{sec:exp-single} presents a comparison of the assigned service interval for a single node in each approach. Section~\ref{sec:exp-scaleinterval} presents a comparison of the assigned connection intervals for multiple nodes in each approach.
+Section~\ref{sec:exp-wqsche} and \ref{sec:exp-varnode} offer comparisons on the schedules from each approach with various data rates and numbers of nodes, respectively.
+%In addition to synthetic packets simulations, a case study is presented in Section~\ref{sec:CS}.=====this is for next section?
+
+\subsection{Experimental Setup}\label{sec:exp-setting}
+This section presents the procedures involved in evaluating the lifetimes of networks and the meet ratios of applications with different approaches. The tests involve using various data rates for slave nodes. We compared our proposed MEI method with Lazy \cite{kindt2015adaptive}, Greedy, and iOS \cite{iOSdefault} methods.
+The Lazy method dynamically scales the service intervals by a callback function. This callback function gradually reduces the service interval as the difference between the maximum rate ($R_{max}$) and the minimum rate ($R_{min}$). The callback function operates only when the callback rate ($R_{CB}$) is smaller than the difference between the current rate ($R_{cur}$) and that between the maximum rate to minimum rate ($R_{max}-R_{min}$). With the lazy method, the current rate is estimated as $\frac{\delta \times \Delta}{C_{n_i}}$, where $\delta$ is the maximum number of packet bytes, $\Delta$ is the maximum number of packets in one connection event, and $C_{n_i}$ is the current service interval. The maximum and minimum rates are calculated as the ratio of $\delta \times \Delta$ to the minimum period of all applications and the ratio of $\delta \times \Delta$ to the maximum period of all applications, respectively. The initial value of the callback rate is $200~ms$ in this experiment. The built-in iOS method sets the service interval to the default value of $40~ms$ for a single node.
+%Under DIF, the connection rate is set as the highest density of the loads to the interval for each applications.
+%, (i.e., $R_{CB} < R_{cur}- cof_{dec} \times (R_{max}-R_{min}) $, where $cof_{dec}$ ranged in [0,1].), , and the decreasing coefficient is $5$
+
+For experiments with multiple nodes under a BLE protocol, we compared our proposed EIMA method with LDC \cite{doudou2013duo} and iOS \cite{iOSdefault} methods. With LDC, the initial value of the service interval of each node is assigned by the MEI, and then the connection interval is estimated as the ratio of the initial value to the number of nodes. The built-in iOS method sets the connection interval to $20~ms$ to serve multiple slave nodes \cite{giovanelli2015bluetooth}.
+
+% Under Greedy, the initial value of service interval of each node is assigned by the MEI and then the connection intervals for all nodes are reset as the ratio of the minimal service interval among all nodes to the number of nodes.
+
+%Take runtime scheduler into account, we compare our proposed SIF to NPEDF\cite{collotta2013deadline}, Polling\cite{jacob2015energy}, and Round Robin\cite{ergen2010tdma}.
+Regarding the runtime scheduler performance, we compared our proposed SIF method to Polling \cite{jacob2015energy}, and Round Robin \cite{ergen2010tdma} methods.
+%Under NPEDF, all node are scheduled by earliest deadline first and are executed in non-preemptible.
+Polling schedules the slave node with the shortest service interval first, and waits for its response until the connection interval is terminated. The Polling scheduler then schedules the node with the second-shortest service interval, and then the third-shortest, and so on. The loop repeats until all slave nodes are scheduled. The round robin schedules nodes sequentially according to its service interval, and repeats the scheduling in a loop.
+
+In the following experiments, the workload is defined by a data rate varying from $80~bytes$ to $360~bytes$ \cite{kindt2015adaptive}, and each application period varies from $200~ms$ to $800~ms$ \cite{tang2015deadline, aquino2008wireless}. Three slave nodes exist, each of which has two applications \cite{fernandes2015wireless}; both applications are evaluated for each setting \cite{USG_CC2540, giovanelli2015bluetooth}.
+The slave node settings are based on the CC$2541$ chip \cite{MEASURE_BLE}, in which $I_{a}$ is $8.246~mA$, $T_{a}$ is $2.675~ms$, and $I_s$ is $0.001~mA$. Based on these chip specifications, the connection current varies with the transmission current $I_t$.
+When multiple packets are transmitted, transmission current $I_t$ is set to $9.564~mA$, and the transmission time for each packet $T_t$ is set to $1.82~ms$; these settings reflect an awareness of the post-processing overhead \cite{giovanelli2015bluetooth}.
+Based on these parameters, the lifetime of each node $n_i$ is estimated by the ratio of the battery capacity to the average current\footnote{According to the report by \cite{phuong2015real}, the current consumed by data sensing is related much lower (about $8$ times) than radio data transmission. In this paper, we focus on the energy consumed by BLE, and the energy consumed by data sensing is assuming as a part of the sleep current.} $I^{avg}_{n_i}$, as shown in Eq.~(\ref{equ:set_avg_conn}). For lifetime estimates in this experiment, the battery capacity is set to $230~mAh$ \cite{hoflinger2014smartphone}.
+In Eq.~(\ref{equ:set_avg_conn}), the first term ($I_{a} \times T_{a} \times \lceil\frac{HP}{C_{n_i}}\rceil$) is the connection energy, the second term ($I_t \times T_t \times P^{HP}_{n_i}$) is the sequence transmission energy, and the third term ($I_{s} \times (HP- T_{a} \times \sum_{j \in {n_i}} \frac{HP}{p_j} - T_t \times P^{HP}_{n_i}$)) is the sleep energy during the hyper-period (HP) of all applications in node $n_i$. The number of connection events can be estimated by $\frac{HP}{C_{n_i}}$, and the number of sequence transmissions ($P^{HP}_{n_i}$) can be calculated using Eq.~(\ref{equ:qt}). Because one packet can be transmitted by a connection event, the number of packet sequence transmissions is the difference between the total number of packets and that of connection events \cite{giovanelli2015bluetooth}. In Eq.~(\ref{equ:qt}), the first term is the total number of packets for all applications; this term can be estimated by the product of the total number of connection events and the required number of packets during the hyper-period. The second term is the number of connection events. After the average current of each node is estimated, the network lifetime is the minimum node lifetime; the node lifetime is the ratio of the battery capacity $C$ to the average current of the node, as shown in Eq.~(\ref{equ:set_lf}).
+
+
+\begin{multline}
+    I^{avg}_{n_i}= \{I_{a} \times T_{a} \times \lceil\frac{HP}{C_{n_i}}\rceil + I_t \times T_t \times P^{HP}_{n_i}\\
+     + I_{s} \times (HP- T_{a} \times \sum_{j \in {n_i}} \frac{HP}{p_j} -  T_t \times P^{HP}_{n_i}\}\times\frac{1}{HP} \label{equ:set_avg_conn}
+\end{multline}
+
+\begin{equation}
+    P^{HP}_{n_i}= \sum_{j \in {n_i}} \frac{HP}{p_j}\times \lceil{\frac{\mu_j}{\delta}}\rceil-\lceil\frac{HP}{C_{n_i}}\rceil \label{equ:qt}
+\end{equation}
+
+\begin{equation}
+    L_{N}= \min\{L(n_i)=\frac{C}{I_{n_i}^{avg}}\}, \forall n_i \in N \label{equ:set_lf}
+\end{equation}
+
+\subsection{Connection Interval Setting with Multiple Packets}\label{sec:exp-single}
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Lifetime]{\label{fig:Single_LF}
+\includegraphics[width=0.49\linewidth]{Single_LF.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Meet Ratio]{\label{fig:Single_MR}
+\includegraphics[width=0.49\linewidth]{Single_MR.eps}}\vspace{-0.5em}
+\caption{Varied Data Rate of Single Node} \label{fig:Exper_LF} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+This section details our evaluation of the energy conservation and schedulability of our proposed MEI with multiple period applications on a single node. For a single node, the connection interval of the node is the same as the service interval.
+
+The horizontal axis in Fig. \ref{fig:Single_LF} indicates the varying data rate, whereas the vertical axis indicates the lifetime (hours).
+The lifetime of the proposed method (MEI) is near that of the Greedy method, with a lower data rate. The lifetime gap between the Greedy method and our MEI method increases with the data rate, because our MEI method shortens the connection interval to guarantee the quality of service for applications. The Greedy method assigns the minimum period as the connection interval without considering the data load, and thus, it produces a longer network lifetime compared with MEI. However, when the data rate is high, the schedulability of the Greedy method is lower compared with other approaches, as shown in Fig. \ref{fig:Single_MR}. In contrast to the Greedy method, the Lazy method sets the shortest connection interval to serve applications when the maximum application rate is higher than the current rate, and then dynamically scales the service interval by using its callback function. The network lifetime of the Lazy method are shorter than those of the Greedy method, but the meet ratio is $100\%$. The lifetime of networks scheduled by iOS is the shortest among all network lifetime, because iOS sets the connection interval at $40~ms$ for all data rates in a single node in order to achieve a high meet ratio. The lifetime of networks using MEI is higher than those of networks using iOS and Lazy methods, by up to $182\%$ and $359\%$.
+
+
+%The rationale is that the shorter connection interval among all approaches to have better meet ratio.
+
+%As shown in Fig. \ref{fig:Single_MR}, our approach MEI, IOS and Lazy can serve all task sets to be schedulable with varied data rate. The rationale is that Our MEI determines the connection interval with considering supplied number of packets to meet the quality of connection. Lazy sets the shortest connection interval to serve applications when the maximum application rate is higher than the current rate. The IOS sets the connection interval as $40~ms$ for all data rates in single node to achieve a high meet ratio but leads a short lifetime. The lifetime of IOS would better than that of Lazy a little, because Lazy would set the $10~ms$ to serve application when the maximum application rate is higher than the current rate and its is higher than $40~ms$, set by IOS.
+%The lifetime of MEI is higher than iOS and Lazy up to $360\%$ and $426\%$.
+%Greedy sets the connection interval as the minimum period for system without application load consideration, so the meet ratio decreases with the data rate.
+%The meet ratio of MEI is higher than Greedy up to $7\%$ when the data rate is $120$.
+
+
+%For example, the meet ratio of MEI is higher than Greedy up to $7\%$ when the data rate is $120$. Compared to other approaches, our MEI maximize the lifetime without affect the quality of service.
+%Under DIF, the meet ratio increases with the data rate when the data rate is lower than $320bytes/s$ because the service interval would not affected by the load obviously in the low data load. It results that the service interval is set as the longest period of application and then violates the latency constraint of the shorter period ones. When the data rate is increased to $320bytes/s$, the DIF would consider the effect of the load and decrease the service interval, so the meet ratio of the packets might be increased. The meet ratio of DIF is lower than MEI and Lazy because the DIF scales the service interval dynamically during runtime and the resulted scaling overhead would postpone urgent.
+
+\subsection{Connection Interval Setting with Multiple Nodes}\label{sec:exp-scaleinterval}
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Lifetime]{\label{fig:LF_Interval}
+\includegraphics[width=0.49\linewidth]{LF-MEI_---_EIF.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Meet Ratio]{\label{fig:MR_Interval}
+\includegraphics[width=0.49\linewidth]{MR-MEI_---_EIF.eps}}\vspace{-0.5em}
+\caption{Scaling Interval of Multiple Nodes} \label{fig:Exper_Interval} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+%fix:移走greedy
+
+This section details our evaluation of the energy conservation capability of our proposed connection interval setting (EIMA) with multiple packets and multiple nodes. To improve schedulability, all approaches involved setting the service interval with MEI, and then they were scheduled using the proposed SIF method. More scheduler comparisons are presented in the next section.
+
+%As shown in Fig. \ref{fig:LF_Interval}, to lengthen the lifetime, EIMA assigns the connection interval to each node with the required average current consideration. The idea is to set longer connection interval to the node with shorter service interval and set the shorter connection interval to the node with longer service interval to tradeoff the lifetime and blocking time. The lifetime gap between LDC and Greedy is closed and perform worse than our EIMA. LDC tends to assign the connection interval in each node as the assigned service interval be divided by number of nodes, but Greedy sets all connection interval as minimum one be divided by number of node. It results the lifetime of LDC slightly longer than Greedy but the meet ratio is lower than Greedy as shown in Fig. \ref{fig:MR_Interval}. The lifetime of EIMA is higher than Greedy and LDC up to $54\%$. The meet ratio of the EIMA is slightly decreased when the data rate is lower because of the longer blocking from longer service interval. When the data rate is higher, the meet ratio of EIMA is increased due to the connection intervals of nodes are similar and then the blocking effect is decreased. Although the meet ratio of EIMA is lower than Greedy and iOS, the meet ratio of EIMA is higher than LDC up to $35\%$ to show a better tradeoff between energy and blocking. Compared to EIMA, the meet ratio of Greedy and iOS are $100\%$. However, the lifetime of EIMA is higher than iOS and Greedy up to $235\%$ and $??\%$, respectively.
+
+
+As shown in Fig. \ref{fig:LF_Interval} to lengthen the lifetime, EIMA assigns the connection interval to each node with the required average current consideration. EIMA is intended to set longer connection interval for nodes with shorter service interval, and to set shorter connection interval for nodes with longer service interval; this is intended to balance the lifetime and blocking time. The performance of the LDC method is worse compared with the EIMA method, because the LDC method tends to assign the same connection interval for each node, namely the assigned service interval divided by the number of nodes. This leads to shorter connection intervals. The networks planned by iOS have the shortest lifetimes among all of the approaches, because iOS sets the connection interval at $20~ms$. The lifetime of EIMA is higher than those of iOS and LDC, by up to $235\%$ and $54\%$.
+
+As shown in Fig. \ref{fig:MR_Interval}, the meet ratio of the EIMA method decreases slightly when the data rate is low, because long service intervals produce long blocking times. Conversely, when the data rate is higher, the meet ratio of the EIMA method increases because the connection intervals of nodes are similar and the blocking effect decreases. The meet ratio of the EIMA method is higher than that of the LDC method by up to $35\%$, showing that the EIMA method involves a superior tradeoff between energy and blocking.
+
+
+\subsection{Runtime Scheduler}\label{sec:exp-wqsche}
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Lifetime]{\label{fig:LF-WR}
+\includegraphics[width=0.49\linewidth]{LF-MEI_EIMA_---.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Meet Ratio]{\label{fig:MR-WR}
+\includegraphics[width=0.49\linewidth]{MR-MEI_EIMA_---.eps}}\vspace{-0.5em}
+\caption{Write-Request Schedule} \label{fig:figWR} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+\begin{figure*}[t]
+\begin{minipage}[b]{\linewidth}
+\subfigure[Lifetime]{\label{fig:LF_Multi}
+\includegraphics[width=0.49\linewidth]{LF_Multi.eps}}\vspace{-0.5em}
+\centering
+\subfigure[Meet Ratio]{\label{fig:MR_Multi}
+\includegraphics[width=0.49\linewidth]{MR_Multi.eps}}\vspace{-0.5em}
+\caption{Multiple Nodes} \label{fig:Exper_Sche} %\vspace{-2em}
+\end{minipage}
+\end{figure*}
+
+This section details our evaluation of the performance of the proposed runtime scheduler. The service and connection intervals of each node were set by MEI and EIMA, respectively.
+The lifetime of RR is slightly higher than those of others, as shown in Fig.~\ref{fig:LF-WR}. With RR , each node can send its packets in each round, resulting in fewer accumulated packets for each node. Therefore, the average current with RR is lower than those of other approaches, due to less number of sequence transmissions. The performance gaps between all approaches is small because the connection interval settings are the same.
+
+As shown in Fig. \ref{fig:MR-WR}, our proposed SIF achieves the highest meet ratio of all the studied approaches. The meet ratio of SIF increases with the data rate. This occurs because the EIMA method sets a longer connection interval, which causes longer blocking times with low data rates. However, when the data rate is increased, the blocking effect decreases with the connection interval, but the required current increases. The meet ratio of the Polling method is superior to that of the RR method, because the Polling assignment considers the priority of each node in each round, and thus, the highest-priority node can be served more during the hyper-period. The meet ratio of the SIF method is higher than those of the Polling and RR methods, by up to $48\%$ and $35\%$, respectively.
+
+\subsection{Varied Number of Nodes}\label{sec:exp-varnode}
+
+
+
+This section presents a comparison of the proposed SIF scheduler with EIMA of MEI against iOS using a Round Robin (IOSRR) scheduler and a greedy approache, which uses Polling with Greedy service interval settings conducted through LDC connection interval scaling (GLDCP) with varying numbers of nodes in the networks. BLE can connect up to eight nodes to request more sensing data.
+Fig.~\ref{fig:Exper_Sche} shows the meet ratio and lifetime of these two approaches with three to eight nodes at a data rate of $80\ bytes/s$.
+
+Fig.~\ref{fig:LF_Multi} shows the network lifetimes produced using these approaches; the performance levels of SIF and GLDCP decreased with an increase in the number of nodes. The rationale is that connection intervals decrease with increasing numbers of nodes with both LDC and EIMA. LDC estimates the connection interval as the ratio of a service interval of a node to the number of nodes, and EIMA estimates the connection interval of a node as the ratio of its service interval to that of its weight to the summation of all weights of all nodes. In contrast to GLDCP and SIF, iOSRR produces network lifetime that is stable because of the static connection interval setting. The network lifetimes produced using our proposed method are approximately $51\%$ and $235\%$ times longer than those produced by GLDCP and iOSRR.
+
+Fig.~\ref{fig:MR_Multi} shows that the meet ratios produced by SIF increased with the number of nodes. Although the connection interval from GLDCP decreased according to the number of nodes, the delay time of the lower-priority nodes increased with the number of nodes through the Polling scheduler. Thus, the meet ratio of GLDCP was stable with increased nodes, whereas iOSRR set the connection interval as $20~ms$ without considering the number of nodes, so that the meet ratio decreased with an increasing number of nodes. The meet ratio produced by SIF was superior to that of GLDCP and IOSRR by up to $60\%$ and $33\%$. This shows that our approach can extend the network lifetime without sacrificing the quality of service, even if many nodes are in the network.
+
+%實驗結果是算多出來的部分
+\begin{comment}
+\section {Case Study}~\label{sec:CS}
+
+\begin{figure}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+%\subfigure[Master implementation]{\label{fig:Masterimple}
+%\includegraphics[width=0.28\linewidth]{GW_imple.eps}}\vspace{-0.5em}
+\centering
+%\subfigure[Slave implementation]{\label{fig:Slaveimple}
+\includegraphics[width=0.8\linewidth]{Slave_imple.eps} %fix:撠撌勗???銝?憿
+%\centering
+%\subfigure[Measure Circuit]{\label{fig:Measure_Cir}
+%\includegraphics[width=0.35\linewidth]{Measure_way.eps}}\vspace{5em}
+\caption{Slave Implementation} \label{fig:imple}
+\end{minipage}
+\end{figure}
+
+The proposed algorithm was also implemented and evaluated in a real-life sensor network composed of TI CC$2541$ chips with a set of health care applications \cite{touati2013real}. The network included one master node, which was connected to a personal computer through a host controller interface and three BLE slave nodes. The original BLE stack in the TI CC$2541$ was designed to have one application that would write packets to the master. To support multiple applications in one slave node, we added a {\it Buffer Queue} to buffer the packets sensed by different applications, and added a {\it GATTMsg} callback function based on a generic attribute profile (GATT) layer, as shown in Fig.~\ref{fig:imple}. Thus, during the connection interval, when the node received the request from the master, the GATT layer triggered {\it GATTMsg} to write all packets in {\it Buffer Queue} to the master node. The proposed MEI, EIMA, and SIF were implemented in the master node. The master node estimated the connection interval by EIMA and sent the request for each node. The SIF responded to write the requests to slave nodes, and thus, a callback function was added to receive the packets from slave nodes for improved responsiveness. The current levels for slave nodes were measured using a $10\Omega$ resistor \cite{MEASURE_BLE} with $3.3\ V$ input voltage.
+
+
+\begin {table}[H]
+\begin{center}
+    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \hline
+    Node id & Load(bytes) & Period  \\ \hline
+    n1 & 8 & 200ms           \\ \hline
+    n2 & 16 & 400ms\\ \hline
+    n3 & 20 & 800ms  \\
+    \hline
+    \end{tabular}
+\end{center}
+\caption {Application Input} \label{tbl:input}
+\end {table}
+
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\subfigure[EIMA SIF Implementation]{\label{fig:Measure_EIF}
+\includegraphics[width=0.30\linewidth]{Measure_EIMA_EIF.eps}}
+\centering
+\subfigure[LDC Polling Implementation]{\label{fig:Measure_GGP}
+\includegraphics[width=0.30\linewidth]{Measure_LDC_Polling.eps}}
+\centering
+\subfigure[IOS Round Robin Implementation]{\label{fig:Measure_IOSRR}
+\includegraphics[width=0.30\linewidth]{Measure_IOSRR.eps}}
+\caption{Implementation Result} \label{fig:sim_imple}
+\end{minipage}
+\end{figure*}
+
+\begin{figure*}[!tbhp]
+\begin{minipage}[b]{\linewidth}
+\centering
+\includegraphics[width=0.5\textwidth]{LF-CS.eps}
+\caption{With Different Sleep Current}\label{fig:Sim_sleep}
+\end{minipage}
+\end{figure*}
+
+We considered a scenario in which heartrate, ECG, and danger detection applications in each node sense body information, as shown in Table~\ref{tbl:input}. The shortest connection interval determined using our proposed system was $100~ms$; the measured current is shown in Fig. \ref{fig:Measure_EIF}; the average current was $0.759~mA$. With a $230~mA$ CR2032 battery \cite{MEASURE_BLE}, the lifetime would have been $303~h$. For the system in which the service interval and connection interval are assigned by the LDC method and all nodes are scheduled by Polling, the shortest connection interval is $50~ms$; Fig. \ref{fig:Measure_GGP} shows the average current, which is $0.917~mA$. Thus, the lifetime would be $250~h$. For the iOS default settings in multiple slaves, the connection interval of all the slaves was set as $20~ms$, as shown in Fig. \ref{fig:Measure_IOSRR}. The average current was $2.055~mA$, and the lifetime would have been $111~h$. Comparing the results shown in Fig. \ref{fig:LF_Multi} with those of three slave nodes, the lifetime decreases by approximately $53\%\ (\frac{657.205-303}{657.205})$ with our approach, by $42\%$ with GLDCP, and with $43\%$ in IOSRR. This is caused by a variation in the sleep current from $1~uA$ to $400~uA$ during runtime.
+
+Fig.~\ref{fig:Sim_sleep} shows the lifetime gaps between these approaches when the sleep current increases from $1~uA$ to $400~uA$. Compared with the results shown in Fig.~\ref{fig:sim_imple}, the lifetime error between estimation and measurement is no more than $40~h$, and this error is caused by the processing power and electronic capacity. The sleep duration of the master node is determined by the connection intervals of the slave nodes and the number of nodes. Considering the connection interval settings for all three slave nodes, the theoretically maximal lifetime without processing and errors of the master node with EIMA is $347~h$ and that with iOS is $69~h$.
+\end{comment}
+%347~hours=(\frac{230}{\frac{3 \times 2.675 \times 8.246 + (100-3 \times 2.675)\times 0.001}{100}})=>是理論值，是不考慮實測的誤差
+
+
+%
+%We implement our algorithm on the master side through host controller interface ($HCI$) to command the master node. In the slave side, we add the $Buffer\ Queue$ to manage the sequence packets to the buffer and $GATTMsg$ process to
+%receive the request message form GATT layer and write sensing data back. The specification of device is based on TI's CC2540, the development source code is from the BLE stack.
+%In the Fig. \ref{fig:Slaveimple}, when the application gets sensing data from peripheral, the $Buffer\ Queue$ would manage to load data to Buffer and wait for request by $GATTMsg$. When there is request message from master side, the $Buffer\ Queue$
+%can offer sensing data to write back to master up to four packets. Without $Buffer\ Queue$ management, each application is written back to master independently and cause state of BLE to standby for writing sensing data in the attribution table, this mechanism might cause one connection event only serve one packet and then make the worse system's quality.
+%The $Buffer\ Queue$ can manage to send up to four ready packets to GATT layer.
+%However with the $Buffer\ Queue$ management, it would cause one connection event stay at connection state too long and block the other nodes. This situation would make the packet loss too worse, so the write-request, should be implement in the multiple nodes issue.
+%With our write-request approach, called $GATTMsg$ the scheduler receives the request data from GATT layer and trigger the $GATTMsg$ to write back packets, form $Buffer\ Queue$ to the master side. Different from default mechanism, it receives the request data from GATT layer andX
+%trigger the application to write sensing data into attribution table, and then notify service process to write back. This long time mechanism might cause request in one connection event and write back a in next one and it also not support multiple packets transmission in one connection event.
+%In our approach, the slave transmits multiple packets in one connection event and let the master waits for duration of connection interval to synchronize to each other.
+%In the Fig. \ref{fig:Masterimple}, we command device by $HCI$ command through uart to the master node. We implement the MEI and EIMA algorithm in master and feed back to each slave. In the SIF schedule, we implement the callback function in other thread for receiving sensing data without waiting function.
+%The master choose the request slave node and request through uart to device, then if there is response data from any slave, the callback function would receive it. So the SIF schedule would not affect by waiting for the reception.
+
+
+
+%In the Fig. \ref{fig:Measure_Cir}, we measure the current consumption for slave node by using a resistor, $10\Omega$ in line through power supply, $3.3\ V$ input to the node, and calculate the current of resistor as measuring voltage to be divided by resistor value.
+%We implement the MEI of EIMA by SIF scheduler and Greedy of Greedy by Round Robin scheduler for comparing lifetime of each one in $40bytes/s$ data rate . We retrieve $500ms$ with $0.05ms$ sample period to measure the average current.
+%In Fig. \ref{fig:Measure_EIF}, the interval of peak current is $100ms$, the average current is close to $0.759mA$ and then the lifetime would be $303\ hours\ (\frac{230mAh}{0.759mA})$.
+%In Fig. \ref{fig:Measure_RR}, the interval of peak current is $50ms$, the average current is close to $1.056mA$ and then the lifetime would be $217\ hours\ (\frac{230mAh}{1.056mA})$. Because the sleep current of measure value is affected by leakage current and measure error, then it is not always be $0.001mA$, so the result of measure would not be same as that of simulation.
+%In Fig. \ref{fig:Sim_sleep}, we evaluate the simulation with sleep current as $1uA$ and $400uA$ to show the gap of sleep current influence and the result lifetime of our approach and Greedy is close to the measure value. The meet ratio of our approach is close to $95\%$ and that of Greedy is $100.0\%$.
+%It is clear to see our approach has better performance lifetime than the other implementation and the meet ratio is close to each other.
+
+
+
+\section{Conclusion}~\label{sec:con}
+
+This paper proposed an energy-efficient scheduling framework for multiple BLE nodes. With a BLE slave node with multiple applications, each of which has different data rates and latency sensitivities, we presented a demand packet estimation (MEI) to identify the required connection interval. We presented a connection interval assignment (EIMA) method for balancing energy consumption and the blocking time for multiple BLE nodes in a network. To resolve data collisions in the physical channel, we also proposed a non-preemptive write-request scheduler (SIF) that forbids certain events to balance blocking time and response latency. The capabilities of the proposed algorithms were evaluated by conducting several experiments involving synthesized workloads; encouraging results were obtained regarding energy minimization. These experiments showed that the energy saving of our approach prolonged the network lifetime by $170\%$ compared with a default fixed connection interval setting, such as iOS and SPP-over-BLE profile. We will continue to investigate the power management challenges of more complex topologies with multiple protocols, such as mobile cloud computing for the Internet of Things.
+
+% and a real-life case study
+%The practicability of the proposed framework was evaluated with a body sensor network; the results revealed effective energy savings even when the processing power and electronic capacity were considered.
+
+%\bibliographystyle{unsrt}
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,master}
+
+%\newpage
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{jingho.eps}}]{Jing-Ho Chen}
+is working on technology industry. He received his M.S. degree in electrical engineering
+from National Taiwan University of Science and Technology at 2016, and was supervised by Dr.~Ya-Shu~Chen. He earned his B.S. degree in electrical engineering from National Taiwan University of Science and Technology at 2014. His research interests include wireless sensor networks and scheduling algorithms for embedded systems.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{yschen.eps}}]{Ya-Shu Chen} joined Department of Electrical Engineering, National
+Taiwan University of Science and Technology, at August 2007. She currently serves as an Associate Professor. Ya-Shu~Chen earned her BS degree in computer information and science at National
+Chiao-Tung University in 2001. Then, she studied in Department of Computer Science and Information Engineering, National Taiwan University, and was supervised by Prof.~Tei-Wei Kuo. She successfully defended her master thesis and doctoral dissertation at 2003 and 2007, respectively. Her research interest includes operating systems, embedded storage systems, and hardware/software co-design.
+\end{IEEEbiography}
+%\newpage
+
+\end{document}
